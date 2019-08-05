@@ -1,6 +1,6 @@
 <script>
   import { scaleLinear } from 'd3-scale';
-  import { layout } from './stores/layout.svelte';
+  import { layout } from './stores/layout.js';
 
 	const points = [
 		{ year: 1990, birthrate: 16.7 },
@@ -31,7 +31,11 @@
 		.range([height - padding.bottom, padding.top]);
 
 	$: innerWidth = width - (padding.left + padding.right);
-	$: barWidth = innerWidth / xTicks.length;
+  $: barWidth = innerWidth / xTicks.length;
+  
+
+  layout.setRowCount( 10 );
+  layout.setColumnCount( 10 );
 </script>
 
 <style>
@@ -84,6 +88,7 @@
 
 <h2>US birthrate by year</h2>
 <h2>{$layout.rowCount}</h2>
+
 
 
 <div class="chart" bind:clientWidth={width} bind:clientHeight={height}>
