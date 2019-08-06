@@ -1,5 +1,8 @@
 <script>
   export let name;
+
+  import 'bulma/css/bulma.css'
+  import { Button } from 'svelma' 
   import Maze from './Maze.svelte';
 </script>
 
@@ -9,6 +12,16 @@
 	}
 </style>
 
-<h1>Bye {name}!</h1>
+<section class="section">
+  <div class="container">
+    <h1 class="title">Maze</h1>
+    <h2 class="subtitle">
+      A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
+    </h2>
+    <Button>Hello</Button>
 
-<Maze />
+    <Maze />
+  </div>
+</section>
+
+

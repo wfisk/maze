@@ -1,6 +1,6 @@
 <script>
   import { scaleLinear } from 'd3-scale';
-  import { layout } from './stores/layout.js';
+  import { mazeGrid } from './stores/maze-grid.js';
 
 	const points = [
 		{ year: 1990, birthrate: 16.7 },
@@ -34,8 +34,12 @@
   $: barWidth = innerWidth / xTicks.length;
   
 
-  layout.setRowCount( 10 );
-  layout.setColumnCount( 10 );
+  mazeGrid.setRowCount( 10 );
+  mazeGrid.setColumnCount( 10 );
+
+  $: console.log( $mazeGrid );
+
+
 </script>
 
 <style>
@@ -84,10 +88,16 @@
 		stroke: none;
 		opacity: 0.65;
 	}
+
+  .column line,
+  .row line {
+		stroke: #333;
+	}
+
 </style>
 
 <h2>US birthrate by year</h2>
-<h2>{$layout.rowCount}</h2>
+<h2>{$mazeGrid.rowCount}</h2>
 
 
 
@@ -122,5 +132,37 @@
 				></rect>
 			{/each}
 		</g>
+  </svg>
+  
+	<svg>
+		<!-- Grid Lines - Vertical -->
+		<g class="axis y-axis">
+			{#each $mazeGrid.columns as column}
+				<g class="column column-{column}" transform="translate(0, {column*20})">
+					<line x2="100%"></line>
+				</g>
+			{/each}
+		</g>
+
+		<!-- Grid Lines - Horizontal -->
+		<g class="axis x-axis">
+			{#each $mazeGrid.rows as row}
+				<g class="row row-{row}" transform="translate({row*20},0)">
+					<line y2="100%"></line>
+				</g>
+			{/each}
+		</g>
+
+		<g class='bars'>
+			{#each points as point, i}
+				<rect
+					x="{xScale(i) + 2}"
+					y="{yScale(point.birthrate)}"
+					width="{barWidth - 4}"
+					height="{height - padding.bottom - yScale(point.birthrate)}"
+				></rect>
+			{/each}
+		</g>
 	</svg>
+
 </div>
