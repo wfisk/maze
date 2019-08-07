@@ -3492,7 +3492,7 @@ var app = (function () {
 
     const file$1 = "src/App.svelte";
 
-    // (21:4) <Button>
+    // (83:6) <Button>
     function create_default_slot(ctx) {
     	var t;
 
@@ -3514,9 +3514,9 @@ var app = (function () {
     }
 
     function create_fragment$1(ctx) {
-    	var section, div, h1, t1, h2, t2, strong, t4, t5, t6, current;
+    	var div8, nav, div0, a, img, t0, button0, span0, t1, span1, t2, span2, t3, div7, div3, button1, t5, span3, t7, div2, span4, t9, div1, span5, t11, span6, t13, span7, t15, hr, t16, span8, t18, div6, div5, div4, span9, strong0, t20, span10, t22, section, h1, t24, h2, t25, strong1, t27, t28, t29, current;
 
-    	var button = new Ne({
+    	var button2 = new Ne({
     		props: {
     		$$slots: { default: [create_default_slot] },
     		$$scope: { ctx }
@@ -3528,29 +3528,140 @@ var app = (function () {
 
     	return {
     		c: function create() {
+    			div8 = element("div");
+    			nav = element("nav");
+    			div0 = element("div");
+    			a = element("a");
+    			img = element("img");
+    			t0 = space();
+    			button0 = element("button");
+    			span0 = element("span");
+    			t1 = space();
+    			span1 = element("span");
+    			t2 = space();
+    			span2 = element("span");
+    			t3 = space();
+    			div7 = element("div");
+    			div3 = element("div");
+    			button1 = element("button");
+    			button1.textContent = "Home";
+    			t5 = space();
+    			span3 = element("span");
+    			span3.textContent = "Documentation";
+    			t7 = space();
+    			div2 = element("div");
+    			span4 = element("span");
+    			span4.textContent = "More";
+    			t9 = space();
+    			div1 = element("div");
+    			span5 = element("span");
+    			span5.textContent = "About";
+    			t11 = space();
+    			span6 = element("span");
+    			span6.textContent = "Jobs";
+    			t13 = space();
+    			span7 = element("span");
+    			span7.textContent = "Contact";
+    			t15 = space();
+    			hr = element("hr");
+    			t16 = space();
+    			span8 = element("span");
+    			span8.textContent = "Report an issue";
+    			t18 = space();
+    			div6 = element("div");
+    			div5 = element("div");
+    			div4 = element("div");
+    			span9 = element("span");
+    			strong0 = element("strong");
+    			strong0.textContent = "Sign up";
+    			t20 = space();
+    			span10 = element("span");
+    			span10.textContent = "Log in now";
+    			t22 = space();
     			section = element("section");
-    			div = element("div");
     			h1 = element("h1");
     			h1.textContent = "Maze";
-    			t1 = space();
+    			t24 = space();
     			h2 = element("h2");
-    			t2 = text("A simple container to divide your page into ");
-    			strong = element("strong");
-    			strong.textContent = "sections";
-    			t4 = text(", like the one you're currently reading");
-    			t5 = space();
-    			button.$$.fragment.c();
-    			t6 = space();
+    			t25 = text("A simple container to divide your page into ");
+    			strong1 = element("strong");
+    			strong1.textContent = "sections";
+    			t27 = text(", like the one you're currently reading");
+    			t28 = space();
+    			button2.$$.fragment.c();
+    			t29 = space();
     			maze.$$.fragment.c();
+    			attr(img, "src", "https://bulma.io/images/bulma-logo.png");
+    			attr(img, "width", "112");
+    			attr(img, "height", "28");
+    			attr(img, "alt", "bulma-logo");
+    			add_location(img, file$1, 19, 8, 374);
+    			attr(a, "class", "navbar-item");
+    			attr(a, "href", "https://bulma.io");
+    			add_location(a, file$1, 18, 6, 318);
+    			attr(span0, "aria-hidden", "true");
+    			add_location(span0, file$1, 23, 8, 617);
+    			attr(span1, "aria-hidden", "true");
+    			add_location(span1, file$1, 24, 8, 658);
+    			attr(span2, "aria-hidden", "true");
+    			add_location(span2, file$1, 25, 8, 699);
+    			attr(button0, "role", "button");
+    			attr(button0, "class", "navbar-burger burger");
+    			attr(button0, "aria-label", "menu");
+    			attr(button0, "aria-expanded", "false");
+    			attr(button0, "data-target", "navbarBasicExample");
+    			add_location(button0, file$1, 22, 6, 484);
+    			attr(div0, "class", "navbar-brand");
+    			add_location(div0, file$1, 17, 4, 285);
+    			attr(button1, "class", "navbar-item button is-text");
+    			add_location(button1, file$1, 31, 8, 855);
+    			attr(span3, "class", "navbar-item");
+    			add_location(span3, file$1, 35, 8, 941);
+    			attr(span4, "class", "navbar-link");
+    			add_location(span4, file$1, 40, 10, 1079);
+    			attr(span5, "class", "navbar-item");
+    			add_location(span5, file$1, 45, 12, 1194);
+    			attr(span6, "class", "navbar-item");
+    			add_location(span6, file$1, 48, 12, 1273);
+    			attr(span7, "class", "navbar-item");
+    			add_location(span7, file$1, 51, 12, 1351);
+    			attr(hr, "class", "navbar-divider");
+    			add_location(hr, file$1, 54, 12, 1432);
+    			attr(span8, "class", "navbar-item");
+    			add_location(span8, file$1, 55, 12, 1472);
+    			attr(div1, "class", "navbar-dropdown");
+    			add_location(div1, file$1, 44, 10, 1152);
+    			attr(div2, "class", "navbar-item has-dropdown is-hoverable");
+    			add_location(div2, file$1, 39, 8, 1017);
+    			attr(div3, "class", "navbar-start");
+    			add_location(div3, file$1, 30, 6, 820);
+    			add_location(strong0, file$1, 66, 14, 1753);
+    			attr(span9, "class", "button is-primary");
+    			add_location(span9, file$1, 65, 12, 1706);
+    			attr(span10, "class", "button is-light");
+    			add_location(span10, file$1, 68, 12, 1810);
+    			attr(div4, "class", "buttons");
+    			add_location(div4, file$1, 64, 10, 1672);
+    			attr(div5, "class", "navbar-item");
+    			add_location(div5, file$1, 63, 8, 1636);
+    			attr(div6, "class", "navbar-end");
+    			add_location(div6, file$1, 62, 6, 1601);
+    			attr(div7, "id", "navbarBasicExample");
+    			attr(div7, "class", "navbar-menu");
+    			add_location(div7, file$1, 29, 4, 764);
+    			attr(nav, "class", "navbar");
+    			attr(nav, "role", "navigation");
+    			attr(nav, "aria-label", "main navigation");
+    			add_location(nav, file$1, 16, 2, 213);
     			attr(h1, "class", "title svelte-i7qo5m");
-    			add_location(h1, file$1, 16, 4, 242);
-    			add_location(strong, file$1, 18, 50, 346);
+    			add_location(h1, file$1, 78, 6, 1986);
+    			add_location(strong1, file$1, 80, 52, 2094);
     			attr(h2, "class", "subtitle");
-    			add_location(h2, file$1, 17, 4, 274);
-    			attr(div, "class", "container");
-    			add_location(div, file$1, 15, 2, 214);
+    			add_location(h2, file$1, 79, 6, 2020);
     			attr(section, "class", "section");
-    			add_location(section, file$1, 14, 0, 186);
+    			add_location(section, file$1, 77, 2, 1954);
+    			attr(div8, "class", "container");
+    			add_location(div8, file$1, 14, 0, 186);
     		},
 
     		l: function claim(nodes) {
@@ -3558,30 +3669,70 @@ var app = (function () {
     		},
 
     		m: function mount(target, anchor) {
-    			insert(target, section, anchor);
-    			append(section, div);
-    			append(div, h1);
-    			append(div, t1);
-    			append(div, h2);
-    			append(h2, t2);
-    			append(h2, strong);
-    			append(h2, t4);
-    			append(div, t5);
-    			mount_component(button, div, null);
-    			append(div, t6);
-    			mount_component(maze, div, null);
+    			insert(target, div8, anchor);
+    			append(div8, nav);
+    			append(nav, div0);
+    			append(div0, a);
+    			append(a, img);
+    			append(div0, t0);
+    			append(div0, button0);
+    			append(button0, span0);
+    			append(button0, t1);
+    			append(button0, span1);
+    			append(button0, t2);
+    			append(button0, span2);
+    			append(nav, t3);
+    			append(nav, div7);
+    			append(div7, div3);
+    			append(div3, button1);
+    			append(div3, t5);
+    			append(div3, span3);
+    			append(div3, t7);
+    			append(div3, div2);
+    			append(div2, span4);
+    			append(div2, t9);
+    			append(div2, div1);
+    			append(div1, span5);
+    			append(div1, t11);
+    			append(div1, span6);
+    			append(div1, t13);
+    			append(div1, span7);
+    			append(div1, t15);
+    			append(div1, hr);
+    			append(div1, t16);
+    			append(div1, span8);
+    			append(div7, t18);
+    			append(div7, div6);
+    			append(div6, div5);
+    			append(div5, div4);
+    			append(div4, span9);
+    			append(span9, strong0);
+    			append(div4, t20);
+    			append(div4, span10);
+    			append(div8, t22);
+    			append(div8, section);
+    			append(section, h1);
+    			append(section, t24);
+    			append(section, h2);
+    			append(h2, t25);
+    			append(h2, strong1);
+    			append(h2, t27);
+    			append(section, t28);
+    			mount_component(button2, section, null);
+    			append(section, t29);
+    			mount_component(maze, section, null);
     			current = true;
     		},
 
     		p: function update(changed, ctx) {
-    			var button_changes = {};
-    			if (changed.$$scope) button_changes.$$scope = { changed, ctx };
-    			button.$set(button_changes);
+    			var button2_changes = {};
+    			if (changed.$$scope) button2_changes.$$scope = { changed, ctx };
+    			button2.$set(button2_changes);
     		},
 
     		i: function intro(local) {
     			if (current) return;
-    			transition_in(button.$$.fragment, local);
+    			transition_in(button2.$$.fragment, local);
 
     			transition_in(maze.$$.fragment, local);
 
@@ -3589,17 +3740,17 @@ var app = (function () {
     		},
 
     		o: function outro(local) {
-    			transition_out(button.$$.fragment, local);
+    			transition_out(button2.$$.fragment, local);
     			transition_out(maze.$$.fragment, local);
     			current = false;
     		},
 
     		d: function destroy(detaching) {
     			if (detaching) {
-    				detach(section);
+    				detach(div8);
     			}
 
-    			destroy_component(button);
+    			destroy_component(button2);
 
     			destroy_component(maze);
     		}
