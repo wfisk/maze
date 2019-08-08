@@ -1,15 +1,47 @@
 <script>
   export let name;
 
+  import { onMount } from 'svelte';
   import 'bulma/css/bulma.css'
   import { Button } from 'svelma' 
   import Maze from './Maze.svelte';
+
+
+  onMount( function(){
+    // Get all "navbar-burger" elements
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+    // Check if there are any navbar burgers
+    if ($navbarBurgers.length > 0) {
+
+      // Add a click event on each of them
+      $navbarBurgers.forEach( el => {
+        el.addEventListener('click', () => {
+
+          // Get the target from the "data-target" attribute
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+
+          // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+          el.classList.toggle('is-active');
+          $target.classList.toggle('is-active');
+
+        });
+      });
+    }
+  });
+
+ 
 </script>
 
 <style>
 	h1 {
 		color: purple;
 	}
+  a.navbar-item {
+    cursor: pointer;
+    text-decoration: none;
+  }
 </style>
 
 <div class="container">
@@ -18,6 +50,7 @@
     <div class="navbar-brand">
       <a class="navbar-item" href="https://bulma.io">
         <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" alt="bulma-logo">
+        
       </a>
 
       <button role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -29,13 +62,13 @@
 
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
-        <button class="navbar-item button is-text">
+        <a class="navbar-item">
           Home
-        </button>
+        </a>
 
-        <span class="navbar-item">
+        <a class="navbar-item">
           Documentation
-        </span>
+        </a>
 
         <div class="navbar-item has-dropdown is-hoverable">
           <span class="navbar-link">

@@ -2,167 +2,212 @@
   import { scaleLinear } from 'd3-scale';
   import { mazeGrid } from './stores/maze-grid.js';
 
-	const points = [
-		{ year: 1990, birthrate: 16.7 },
-		{ year: 1995, birthrate: 14.6 },
-		{ year: 2000, birthrate: 14.4 },
-		{ year: 2005, birthrate: 14 },
-		{ year: 2010, birthrate: 13 },
-		{ year: 2015, birthrate: 12.4 }
-	];
+	const padding = { top: 10, right: 10, bottom: 10, left: 10 };
 
-	const xTicks = [1990, 1995, 2000, 2005, 2010, 2015];
-	const yTicks = [0, 5, 10, 15, 20];
-	const padding = { top: 20, right: 15, bottom: 20, left: 25 };
+  let clientWidth = 0;
+  let clientHeight = 0;
 
-	let width = 500;
-	let height = 200;
+	let width = 1000;
+  let height = 1000;
+  let lineWidth = 1;
+  let marker = {row:0, column: 0};
 
-	function formatMobile(tick) {
-		return "'" + tick % 100;
-	}
 
 	$: xScale = scaleLinear()
-		.domain([0, xTicks.length])
+		.domain([0, $mazeGrid.columnCount])
 		.range([padding.left, width - padding.right]);
 
 	$: yScale = scaleLinear()
-		.domain([0, Math.max.apply(null, yTicks)])
-		.range([height - padding.bottom, padding.top]);
+		.domain([0, $mazeGrid.rowCount])
+		.range([padding.top, height - padding.bottom]);
 
-	$: innerWidth = width - (padding.left + padding.right);
-  $: barWidth = innerWidth / xTicks.length;
+  $: innerWidth = width - (padding.left + padding.right);
   
-
-  mazeGrid.setRowCount( 10 );
-  mazeGrid.setColumnCount( 10 );
-
-  $: console.log( $mazeGrid );
+  $: squareHeight = height / $mazeGrid.rowCount - lineWidth * 4;
+  $: squareWidth = width / $mazeGrid.columnCount - lineWidth * 4;
 
 
+  function addressToIndex( row, column ) { 
+    return row * $mazeGrid.columnCount + column;
+  }
+
+  function canMoveMarker( incRow, incColumn ){
+    let newRow = marker.row + incRow;
+    let newColumn = marker.column + incColumn;
+    return isSpaceAt( newRow, newColumn );
+  }
+
+
+  function indexToAddress( index ) { 
+    return {
+      row:     Math.floor( index / $mazeGrid.columnCount ),
+      column:  index % $mazeGrid.columnCount
+    };
+  }
+
+  function isMarkerAt( row, column ){
+    return marker.row === row && marker.column === column;
+  }
+
+  function isSpaceAt( row, column ){
+    let index = addressToIndex( row, column );
+    return $mazeGrid.spaces.indexOf( index ) > -1;
+  }
+
+  function moveMarker( incRow, incColumn ){
+    marker.row = marker.row + incRow;
+    marker.column = marker.column + incColumn;
+  }
+
+  function whoosh(node, params) {
+		const existingTransform = getComputedStyle(node).transform.replace('none', '');
+
+		return {
+			delay: params.delay || 0,
+			duration: params.duration || 400,
+			easing: params.easing || elasticOut,
+			css: (t, u) => `transform: ${existingTransform} scale(${t})`
+		};
+	}
+
+  // Events
+  function onKeyDown(event) {
+    console.log( event.key );
+
+		switch (event.key) {
+			case "ArrowDown":
+        event.preventDefault();
+        if ( canMoveMarker(1,0) ) {
+          moveMarker(1,0);
+        }
+        break;
+        
+			case "ArrowUp":
+				event.preventDefault();
+        if ( canMoveMarker(-1,0) ) {
+          moveMarker(-1,0);
+        }
+        break;
+        
+      case "ArrowLeft":
+				event.preventDefault();
+        if ( canMoveMarker(0,-1) ) {
+          moveMarker(0,-1);
+        }
+        break;
+        
+			case "ArrowRight":
+				event.preventDefault();
+        if ( canMoveMarker(0,1) ) {
+          moveMarker(0,1);
+        }
+        break;
+        
+			default:
+				// just eat it
+    }
+    console.log( marker );
+  }
+
+  
+  function onSquareClick( event ){
+    let row = parseInt( event.target.dataset.row, 10 );
+    let column = parseInt( event.target.dataset.column, 10 );
+    let index = addressToIndex( row, column );
+    console.log( { row, column } );
+    if ( isSpaceAt( row, column ) ) {
+      mazeGrid.removeSpace( index );
+    } 
+    else {
+      mazeGrid.addSpace( index );
+    }  
+  }
 </script>
 
 <style>
 	h2 {
 		text-align: center;
 	}
+	svg {
+		position: relative;
+		width: 100%;
+		height: auto;
+	}
 
-	.chart {
+	.board {
 		width: 100%;
 		max-width: 500px;
 		margin: 0 auto;
 	}
 
-	svg {
-		position: relative;
-		width: 100%;
-		height: 200px;
+  .board svg {
+    background-color: black;
+  }
+
+  .column line {
+		stroke: #d00;
+    stroke-width: 0.5;
 	}
 
-	.tick {
-		font-family: Helvetica, Arial;
-		font-size: .725em;
-		font-weight: 200;
-	}
-
-	.tick line {
-		stroke: #e2e2e2;
-		stroke-dasharray: 2;
-	}
-
-	.tick text {
-		fill: #ccc;
-		text-anchor: start;
-	}
-
-	.tick.tick-0 line {
-		stroke-dasharray: 0;
-	}
-
-	.x-axis .tick text {
-		text-anchor: middle;
-	}
-
-	.bars rect {
-		fill: #a11;
-		stroke: none;
-		opacity: 0.65;
-	}
-
-  .column line,
   .row line {
-		stroke: #333;
+		stroke: #990;
+    stroke-width: 0.5;
 	}
 
+  .square rect {
+    fill: #aaa;
+    cursor: pointer;
+    stroke-width: 0;
+  }
+
+  .square.space rect {
+    fill: #fff;
+    cursor: pointer;
+    stroke-width: 0;
+  }
 </style>
 
-<h2>US birthrate by year</h2>
-<h2>{$mazeGrid.rowCount}</h2>
+<h2>Maze Board</h2>
 
+<svelte:window on:keydown={onKeyDown}/>
 
-
-<div class="chart" bind:clientWidth={width} bind:clientHeight={height}>
-	<svg>
-		<!-- y axis -->
-		<g class="axis y-axis" transform="translate(0,{padding.top})">
-			{#each yTicks as tick}
-				<g class="tick tick-{tick}" transform="translate(0, {yScale(tick) - padding.bottom})">
-					<line x2="100%"></line>
-					<text y="-4">{tick} {tick === 20 ? ' per 1,000 population' : ''}</text>
-				</g>
-			{/each}
-		</g>
-
-		<!-- x axis -->
-		<g class="axis x-axis">
-			{#each points as point, i}
-				<g class="tick" transform="translate({xScale(i)},{height})">
-					<text x="{barWidth/2}" y="-4">{width > 380 ? point.year : formatMobile(point.year)}</text>
-				</g>
-			{/each}
-		</g>
-
-		<g class='bars'>
-			{#each points as point, i}
-				<rect
-					x="{xScale(i) + 2}"
-					y="{yScale(point.birthrate)}"
-					width="{barWidth - 4}"
-					height="{height - padding.bottom - yScale(point.birthrate)}"
-				></rect>
-			{/each}
-		</g>
-  </svg>
+<div 
+  class="board" 
+  bind:clientWidth={clientWidth} 
+  bind:clientHeight={clientHeight}
+  >
   
-	<svg>
-		<!-- Grid Lines - Vertical -->
-		<g class="axis y-axis">
-			{#each $mazeGrid.columns as column}
-				<g class="column column-{column}" transform="translate(0, {column*20})">
-					<line x2="100%"></line>
-				</g>
-			{/each}
-		</g>
+	<svg viewBox="0 0 {width} {height}" width="100%" preserveAspectRatio="xMidYMid meet">
+		<g class='squares'>
+      {#each [...Array($mazeGrid.rowCount).keys()] as row}
+        {#each [...Array($mazeGrid.columnCount).keys()] as column}
+          <g 
+            class="square" 
+            class:space={isSpaceAt(row,column)}
+            transform="translate({xScale(column) + lineWidth / 2}, {yScale(row) + lineWidth / 2})"
+            >
+            <rect 
+              width={squareWidth} 
+              height={squareHeight} 
+              data-row={row}
+              data-column={column}
+              on:click={onSquareClick} />
+          </g>  
+        {/each}
+      {/each}
+    </g>      
 
-		<!-- Grid Lines - Horizontal -->
-		<g class="axis x-axis">
-			{#each $mazeGrid.rows as row}
-				<g class="row row-{row}" transform="translate({row*20},0)">
-					<line y2="100%"></line>
-				</g>
-			{/each}
-		</g>
+    <g 
+      class="marker"
+      transform="translate({xScale(marker.column) + lineWidth / 2}, {yScale(marker.row) + lineWidth / 2})"
+    >
+      <circle 
+        cx="{squareWidth/2}" 
+        cy="{squareHeight/2}" 
+        r="{squareWidth/4}"
+     />
+    </g>
 
-		<g class='bars'>
-			{#each points as point, i}
-				<rect
-					x="{xScale(i) + 2}"
-					y="{yScale(point.birthrate)}"
-					width="{barWidth - 4}"
-					height="{height - padding.bottom - yScale(point.birthrate)}"
-				></rect>
-			{/each}
-		</g>
 	</svg>
 
 </div>

@@ -64,6 +64,13 @@ var app = (function () {
     function space() {
         return text(' ');
     }
+    function empty() {
+        return text('');
+    }
+    function listen(node, event, handler, options) {
+        node.addEventListener(event, handler, options);
+        return () => node.removeEventListener(event, handler, options);
+    }
     function attr(node, attribute, value) {
         if (value == null)
             node.removeAttribute(attribute);
@@ -72,11 +79,6 @@ var app = (function () {
     }
     function children(element) {
         return Array.from(element.childNodes);
-    }
-    function set_data(text, data) {
-        data = '' + data;
-        if (text.data !== data)
-            text.data = data;
     }
     function add_resize_listener(element, fn) {
         if (getComputedStyle(element).position === 'static') {
@@ -106,10 +108,21 @@ var app = (function () {
             }
         };
     }
+    function toggle_class(element, name, toggle) {
+        element.classList[toggle ? 'add' : 'remove'](name);
+    }
 
     let current_component;
     function set_current_component(component) {
         current_component = component;
+    }
+    function get_current_component() {
+        if (!current_component)
+            throw new Error(`Function called outside component initialization`);
+        return current_component;
+    }
+    function onMount(fn) {
+        get_current_component().$$.on_mount.push(fn);
     }
 
     const dirty_components = [];
@@ -2710,18 +2723,28 @@ var app = (function () {
 
     function createMazeGrid() {
     	const { subscribe, set, update } = writable({
-        columnCount: 0,
-        columns: [],
-        rowCount: 0,
-        rows: [],
-        spaces: [],
-        start: -1,
-        end: -1
+        columnCount: 10,
+        rowCount: 10,
+        spaces: [
+            0,  1,  2,  3,  4,   ,  6,  7,  8,  9,
+           10,   ,   ,   , 14,   , 16,   , 18, 19,
+           20,   , 22,   , 24, 25, 26,   , 28, 29,
+           30, 31, 32,   ,   ,   ,   ,   , 38, 39,
+           40,   , 42, 43, 44,   , 46, 47, 48, 49,
+           50,   ,   ,   ,   , 55,   ,   , 58,   ,
+           60,   , 62, 63, 64, 65, 66,   , 68,   ,
+           70, 71, 72,   , 74,   , 76,   , 78, 79,
+           80,   ,   ,   , 84,   , 86,   ,   , 89,
+           90, 91, 92, 93, 94,   , 96, 97, 98, 99
+        ],
+        squareCount: 100,
+        start: 0,
+        end: 99
       });
 
     	return {
         subscribe,
-        
+     
     		addSpace( value ){
           update( self => {
             self.spaces.push( value );
@@ -2743,7 +2766,8 @@ var app = (function () {
     		setColumnCount( value ) {
           update( self => {
             self.columnCount = value;
-            self.columns = [...Array(self.columnCount).keys()];
+            self.squareCount = self.rowCount * self.columnCount;
+            self.end = self.rowCount * self.columnCount;
             return self;
           });
         },
@@ -2751,7 +2775,8 @@ var app = (function () {
     		setRowCount( value ) { 
           update( self => {
             self.rowCount = value;
-            self.rows = [...Array(self.rowCount).keys()];
+            self.squareCount = self.rowCount * self.columnCount;
+            self.end = self.rowCount * self.columnCount;
             return self;
           }); 
         },
@@ -2779,247 +2804,67 @@ var app = (function () {
 
     const file = "src/Maze.svelte";
 
-    function get_each_context(ctx, list, i) {
-    	const child_ctx = Object.create(ctx);
-    	child_ctx.point = list[i];
-    	child_ctx.i = i;
-    	return child_ctx;
-    }
-
     function get_each_context_1(ctx, list, i) {
-    	const child_ctx = Object.create(ctx);
-    	child_ctx.row = list[i];
-    	return child_ctx;
-    }
-
-    function get_each_context_2(ctx, list, i) {
     	const child_ctx = Object.create(ctx);
     	child_ctx.column = list[i];
     	return child_ctx;
     }
 
-    function get_each_context_3(ctx, list, i) {
+    function get_each_context(ctx, list, i) {
     	const child_ctx = Object.create(ctx);
-    	child_ctx.point = list[i];
-    	child_ctx.i = i;
+    	child_ctx.row = list[i];
     	return child_ctx;
     }
 
-    function get_each_context_4(ctx, list, i) {
-    	const child_ctx = Object.create(ctx);
-    	child_ctx.point = list[i];
-    	child_ctx.i = i;
-    	return child_ctx;
-    }
-
-    function get_each_context_5(ctx, list, i) {
-    	const child_ctx = Object.create(ctx);
-    	child_ctx.tick = list[i];
-    	return child_ctx;
-    }
-
-    // (108:3) {#each yTicks as tick}
-    function create_each_block_5(ctx) {
-    	var g, line, text_1, t0_value = ctx.tick, t0, t1_value = ctx.tick === 20 ? ' per 1,000 population' : '', t1, g_class_value, g_transform_value;
-
-    	return {
-    		c: function create() {
-    			g = svg_element("g");
-    			line = svg_element("line");
-    			text_1 = svg_element("text");
-    			t0 = text(t0_value);
-    			t1 = text(t1_value);
-    			attr(line, "x2", "100%");
-    			attr(line, "class", "svelte-1mmigak");
-    			add_location(line, file, 109, 5, 1971);
-    			attr(text_1, "y", "-4");
-    			attr(text_1, "class", "svelte-1mmigak");
-    			add_location(text_1, file, 110, 5, 2000);
-    			attr(g, "class", g_class_value = "tick tick-" + ctx.tick + " svelte-1mmigak");
-    			attr(g, "transform", g_transform_value = "translate(0, " + (ctx.yScale(ctx.tick) - ctx.padding.bottom) + ")");
-    			add_location(g, file, 108, 4, 1879);
-    		},
-
-    		m: function mount(target, anchor) {
-    			insert(target, g, anchor);
-    			append(g, line);
-    			append(g, text_1);
-    			append(text_1, t0);
-    			append(text_1, t1);
-    		},
-
-    		p: function update(changed, ctx) {
-    			if ((changed.yScale) && g_transform_value !== (g_transform_value = "translate(0, " + (ctx.yScale(ctx.tick) - ctx.padding.bottom) + ")")) {
-    				attr(g, "transform", g_transform_value);
-    			}
-    		},
-
-    		d: function destroy(detaching) {
-    			if (detaching) {
-    				detach(g);
-    			}
-    		}
-    	};
-    }
-
-    // (118:3) {#each points as point, i}
-    function create_each_block_4(ctx) {
-    	var g, text_1, t_value = ctx.width > 380 ? ctx.point.year : formatMobile(ctx.point.year), t, text_1_x_value, g_transform_value;
-
-    	return {
-    		c: function create() {
-    			g = svg_element("g");
-    			text_1 = svg_element("text");
-    			t = text(t_value);
-    			attr(text_1, "x", text_1_x_value = ctx.barWidth/2);
-    			attr(text_1, "y", "-4");
-    			attr(text_1, "class", "svelte-1mmigak");
-    			add_location(text_1, file, 119, 5, 2244);
-    			attr(g, "class", "tick svelte-1mmigak");
-    			attr(g, "transform", g_transform_value = "translate(" + ctx.xScale(ctx.i) + "," + ctx.height + ")");
-    			add_location(g, file, 118, 4, 2178);
-    		},
-
-    		m: function mount(target, anchor) {
-    			insert(target, g, anchor);
-    			append(g, text_1);
-    			append(text_1, t);
-    		},
-
-    		p: function update(changed, ctx) {
-    			if ((changed.width) && t_value !== (t_value = ctx.width > 380 ? ctx.point.year : formatMobile(ctx.point.year))) {
-    				set_data(t, t_value);
-    			}
-
-    			if ((changed.barWidth) && text_1_x_value !== (text_1_x_value = ctx.barWidth/2)) {
-    				attr(text_1, "x", text_1_x_value);
-    			}
-
-    			if ((changed.xScale || changed.height) && g_transform_value !== (g_transform_value = "translate(" + ctx.xScale(ctx.i) + "," + ctx.height + ")")) {
-    				attr(g, "transform", g_transform_value);
-    			}
-    		},
-
-    		d: function destroy(detaching) {
-    			if (detaching) {
-    				detach(g);
-    			}
-    		}
-    	};
-    }
-
-    // (126:3) {#each points as point, i}
-    function create_each_block_3(ctx) {
-    	var rect, rect_x_value, rect_y_value, rect_width_value, rect_height_value;
-
-    	return {
-    		c: function create() {
-    			rect = svg_element("rect");
-    			attr(rect, "x", rect_x_value = ctx.xScale(ctx.i) + 2);
-    			attr(rect, "y", rect_y_value = ctx.yScale(ctx.point.birthrate));
-    			attr(rect, "width", rect_width_value = ctx.barWidth - 4);
-    			attr(rect, "height", rect_height_value = ctx.height - ctx.padding.bottom - ctx.yScale(ctx.point.birthrate));
-    			attr(rect, "class", "svelte-1mmigak");
-    			add_location(rect, file, 126, 4, 2416);
-    		},
-
-    		m: function mount(target, anchor) {
-    			insert(target, rect, anchor);
-    		},
-
-    		p: function update(changed, ctx) {
-    			if ((changed.xScale) && rect_x_value !== (rect_x_value = ctx.xScale(ctx.i) + 2)) {
-    				attr(rect, "x", rect_x_value);
-    			}
-
-    			if ((changed.yScale) && rect_y_value !== (rect_y_value = ctx.yScale(ctx.point.birthrate))) {
-    				attr(rect, "y", rect_y_value);
-    			}
-
-    			if ((changed.barWidth) && rect_width_value !== (rect_width_value = ctx.barWidth - 4)) {
-    				attr(rect, "width", rect_width_value);
-    			}
-
-    			if ((changed.height || changed.yScale) && rect_height_value !== (rect_height_value = ctx.height - ctx.padding.bottom - ctx.yScale(ctx.point.birthrate))) {
-    				attr(rect, "height", rect_height_value);
-    			}
-    		},
-
-    		d: function destroy(detaching) {
-    			if (detaching) {
-    				detach(rect);
-    			}
-    		}
-    	};
-    }
-
-    // (140:3) {#each $mazeGrid.columns as column}
-    function create_each_block_2(ctx) {
-    	var g, line, g_class_value, g_transform_value;
-
-    	return {
-    		c: function create() {
-    			g = svg_element("g");
-    			line = svg_element("line");
-    			attr(line, "x2", "100%");
-    			attr(line, "class", "svelte-1mmigak");
-    			add_location(line, file, 141, 5, 2806);
-    			attr(g, "class", g_class_value = "column column-" + ctx.column + " svelte-1mmigak");
-    			attr(g, "transform", g_transform_value = "translate(0, " + ctx.column*20 + ")");
-    			add_location(g, file, 140, 4, 2728);
-    		},
-
-    		m: function mount(target, anchor) {
-    			insert(target, g, anchor);
-    			append(g, line);
-    		},
-
-    		p: function update(changed, ctx) {
-    			if ((changed.$mazeGrid) && g_class_value !== (g_class_value = "column column-" + ctx.column + " svelte-1mmigak")) {
-    				attr(g, "class", g_class_value);
-    			}
-
-    			if ((changed.$mazeGrid) && g_transform_value !== (g_transform_value = "translate(0, " + ctx.column*20 + ")")) {
-    				attr(g, "transform", g_transform_value);
-    			}
-    		},
-
-    		d: function destroy(detaching) {
-    			if (detaching) {
-    				detach(g);
-    			}
-    		}
-    	};
-    }
-
-    // (149:3) {#each $mazeGrid.rows as row}
+    // (183:8) {#each [...Array($mazeGrid.columnCount).keys()] as column}
     function create_each_block_1(ctx) {
-    	var g, line, g_class_value, g_transform_value;
+    	var g, rect, rect_data_row_value, rect_data_column_value, g_transform_value, dispose;
 
     	return {
     		c: function create() {
     			g = svg_element("g");
-    			line = svg_element("line");
-    			attr(line, "y2", "100%");
-    			attr(line, "class", "svelte-1mmigak");
-    			add_location(line, file, 150, 5, 3021);
-    			attr(g, "class", g_class_value = "row row-" + ctx.row + " svelte-1mmigak");
-    			attr(g, "transform", g_transform_value = "translate(" + ctx.row*20 + ",0)");
-    			add_location(g, file, 149, 4, 2956);
+    			rect = svg_element("rect");
+    			attr(rect, "width", ctx.squareWidth);
+    			attr(rect, "height", ctx.squareHeight);
+    			attr(rect, "data-row", rect_data_row_value = ctx.row);
+    			attr(rect, "data-column", rect_data_column_value = ctx.column);
+    			attr(rect, "class", "svelte-cwz51f");
+    			add_location(rect, file, 188, 12, 4136);
+    			attr(g, "class", "square svelte-cwz51f");
+    			attr(g, "transform", g_transform_value = "translate(" + (ctx.xScale(ctx.column) + lineWidth / 2) + ", " + (ctx.yScale(ctx.row) + lineWidth / 2) + ")");
+    			toggle_class(g, "space", ctx.isSpaceAt(ctx.row,ctx.column));
+    			add_location(g, file, 183, 10, 3931);
+    			dispose = listen(rect, "click", ctx.onSquareClick);
     		},
 
     		m: function mount(target, anchor) {
     			insert(target, g, anchor);
-    			append(g, line);
+    			append(g, rect);
     		},
 
     		p: function update(changed, ctx) {
-    			if ((changed.$mazeGrid) && g_class_value !== (g_class_value = "row row-" + ctx.row + " svelte-1mmigak")) {
-    				attr(g, "class", g_class_value);
+    			if (changed.squareWidth) {
+    				attr(rect, "width", ctx.squareWidth);
     			}
 
-    			if ((changed.$mazeGrid) && g_transform_value !== (g_transform_value = "translate(" + ctx.row*20 + ",0)")) {
+    			if (changed.squareHeight) {
+    				attr(rect, "height", ctx.squareHeight);
+    			}
+
+    			if ((changed.$mazeGrid) && rect_data_row_value !== (rect_data_row_value = ctx.row)) {
+    				attr(rect, "data-row", rect_data_row_value);
+    			}
+
+    			if ((changed.$mazeGrid) && rect_data_column_value !== (rect_data_column_value = ctx.column)) {
+    				attr(rect, "data-column", rect_data_column_value);
+    			}
+
+    			if ((changed.xScale || changed.$mazeGrid || changed.yScale) && g_transform_value !== (g_transform_value = "translate(" + (ctx.xScale(ctx.column) + lineWidth / 2) + ", " + (ctx.yScale(ctx.row) + lineWidth / 2) + ")")) {
     				attr(g, "transform", g_transform_value);
+    			}
+
+    			if ((changed.isSpaceAt || changed.$mazeGrid)) {
+    				toggle_class(g, "space", ctx.isSpaceAt(ctx.row,ctx.column));
     			}
     		},
 
@@ -3027,99 +2872,78 @@ var app = (function () {
     			if (detaching) {
     				detach(g);
     			}
+
+    			dispose();
     		}
     	};
     }
 
-    // (157:3) {#each points as point, i}
+    // (182:6) {#each [...Array($mazeGrid.rowCount).keys()] as row}
     function create_each_block(ctx) {
-    	var rect, rect_x_value, rect_y_value, rect_width_value, rect_height_value;
+    	var each_1_anchor;
+
+    	var each_value_1 = [...Array(ctx.$mazeGrid.columnCount).keys()];
+
+    	var each_blocks = [];
+
+    	for (var i = 0; i < each_value_1.length; i += 1) {
+    		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
+    	}
 
     	return {
     		c: function create() {
-    			rect = svg_element("rect");
-    			attr(rect, "x", rect_x_value = ctx.xScale(ctx.i) + 2);
-    			attr(rect, "y", rect_y_value = ctx.yScale(ctx.point.birthrate));
-    			attr(rect, "width", rect_width_value = ctx.barWidth - 4);
-    			attr(rect, "height", rect_height_value = ctx.height - ctx.padding.bottom - ctx.yScale(ctx.point.birthrate));
-    			attr(rect, "class", "svelte-1mmigak");
-    			add_location(rect, file, 157, 4, 3126);
+    			for (var i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
     		},
 
     		m: function mount(target, anchor) {
-    			insert(target, rect, anchor);
+    			for (var i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert(target, each_1_anchor, anchor);
     		},
 
     		p: function update(changed, ctx) {
-    			if ((changed.xScale) && rect_x_value !== (rect_x_value = ctx.xScale(ctx.i) + 2)) {
-    				attr(rect, "x", rect_x_value);
-    			}
+    			if (changed.xScale || changed.$mazeGrid || changed.lineWidth || changed.yScale || changed.isSpaceAt || changed.squareWidth || changed.squareHeight) {
+    				each_value_1 = [...Array(ctx.$mazeGrid.columnCount).keys()];
 
-    			if ((changed.yScale) && rect_y_value !== (rect_y_value = ctx.yScale(ctx.point.birthrate))) {
-    				attr(rect, "y", rect_y_value);
-    			}
+    				for (var i = 0; i < each_value_1.length; i += 1) {
+    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
 
-    			if ((changed.barWidth) && rect_width_value !== (rect_width_value = ctx.barWidth - 4)) {
-    				attr(rect, "width", rect_width_value);
-    			}
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(changed, child_ctx);
+    					} else {
+    						each_blocks[i] = create_each_block_1(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
 
-    			if ((changed.height || changed.yScale) && rect_height_value !== (rect_height_value = ctx.height - ctx.padding.bottom - ctx.yScale(ctx.point.birthrate))) {
-    				attr(rect, "height", rect_height_value);
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+    				each_blocks.length = each_value_1.length;
     			}
     		},
 
     		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+
     			if (detaching) {
-    				detach(rect);
+    				detach(each_1_anchor);
     			}
     		}
     	};
     }
 
     function create_fragment(ctx) {
-    	var h20, t1, h21, t2_value = ctx.$mazeGrid.rowCount, t2, t3, div, svg0, g0, g0_transform_value, g1, g2, t4, svg1, g3, g4, g5, div_resize_listener;
+    	var h2, t_1, div, svg, g0, g1, circle, circle_cx_value, circle_cy_value, circle_r_value, g1_transform_value, svg_viewBox_value, div_resize_listener, dispose;
 
-    	var each_value_5 = ctx.yTicks;
-
-    	var each_blocks_5 = [];
-
-    	for (var i = 0; i < each_value_5.length; i += 1) {
-    		each_blocks_5[i] = create_each_block_5(get_each_context_5(ctx, each_value_5, i));
-    	}
-
-    	var each_value_4 = ctx.points;
-
-    	var each_blocks_4 = [];
-
-    	for (var i = 0; i < each_value_4.length; i += 1) {
-    		each_blocks_4[i] = create_each_block_4(get_each_context_4(ctx, each_value_4, i));
-    	}
-
-    	var each_value_3 = ctx.points;
-
-    	var each_blocks_3 = [];
-
-    	for (var i = 0; i < each_value_3.length; i += 1) {
-    		each_blocks_3[i] = create_each_block_3(get_each_context_3(ctx, each_value_3, i));
-    	}
-
-    	var each_value_2 = ctx.$mazeGrid.columns;
-
-    	var each_blocks_2 = [];
-
-    	for (var i = 0; i < each_value_2.length; i += 1) {
-    		each_blocks_2[i] = create_each_block_2(get_each_context_2(ctx, each_value_2, i));
-    	}
-
-    	var each_value_1 = ctx.$mazeGrid.rows;
-
-    	var each_blocks_1 = [];
-
-    	for (var i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks_1[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
-    	}
-
-    	var each_value = ctx.points;
+    	var each_value = [...Array(ctx.$mazeGrid.rowCount).keys()];
 
     	var each_blocks = [];
 
@@ -3129,75 +2953,39 @@ var app = (function () {
 
     	return {
     		c: function create() {
-    			h20 = element("h2");
-    			h20.textContent = "US birthrate by year";
-    			t1 = space();
-    			h21 = element("h2");
-    			t2 = text(t2_value);
-    			t3 = space();
+    			h2 = element("h2");
+    			h2.textContent = "Maze Board";
+    			t_1 = space();
     			div = element("div");
-    			svg0 = svg_element("svg");
+    			svg = svg_element("svg");
     			g0 = svg_element("g");
-
-    			for (var i = 0; i < each_blocks_5.length; i += 1) {
-    				each_blocks_5[i].c();
-    			}
-
-    			g1 = svg_element("g");
-
-    			for (var i = 0; i < each_blocks_4.length; i += 1) {
-    				each_blocks_4[i].c();
-    			}
-
-    			g2 = svg_element("g");
-
-    			for (var i = 0; i < each_blocks_3.length; i += 1) {
-    				each_blocks_3[i].c();
-    			}
-
-    			t4 = space();
-    			svg1 = svg_element("svg");
-    			g3 = svg_element("g");
-
-    			for (var i = 0; i < each_blocks_2.length; i += 1) {
-    				each_blocks_2[i].c();
-    			}
-
-    			g4 = svg_element("g");
-
-    			for (var i = 0; i < each_blocks_1.length; i += 1) {
-    				each_blocks_1[i].c();
-    			}
-
-    			g5 = svg_element("g");
 
     			for (var i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
-    			attr(h20, "class", "svelte-1mmigak");
-    			add_location(h20, file, 98, 0, 1624);
-    			attr(h21, "class", "svelte-1mmigak");
-    			add_location(h21, file, 99, 0, 1654);
-    			attr(g0, "class", "axis y-axis");
-    			attr(g0, "transform", g0_transform_value = "translate(0," + ctx.padding.top + ")");
-    			add_location(g0, file, 106, 2, 1786);
-    			attr(g1, "class", "axis x-axis svelte-1mmigak");
-    			add_location(g1, file, 116, 2, 2120);
-    			attr(g2, "class", "bars svelte-1mmigak");
-    			add_location(g2, file, 124, 2, 2365);
-    			attr(svg0, "class", "svelte-1mmigak");
-    			add_location(svg0, file, 104, 1, 1760);
-    			attr(g3, "class", "axis y-axis");
-    			add_location(g3, file, 138, 2, 2661);
-    			attr(g4, "class", "axis x-axis");
-    			add_location(g4, file, 147, 2, 2895);
-    			attr(g5, "class", "bars svelte-1mmigak");
-    			add_location(g5, file, 155, 2, 3075);
-    			attr(svg1, "class", "svelte-1mmigak");
-    			add_location(svg1, file, 136, 1, 2620);
+
+    			g1 = svg_element("g");
+    			circle = svg_element("circle");
+    			attr(h2, "class", "svelte-cwz51f");
+    			add_location(h2, file, 169, 0, 3525);
+    			attr(g0, "class", "squares");
+    			add_location(g0, file, 180, 2, 3775);
+    			attr(circle, "cx", circle_cx_value = ctx.squareWidth/2);
+    			attr(circle, "cy", circle_cy_value = ctx.squareHeight/2);
+    			attr(circle, "r", circle_r_value = ctx.squareWidth/4);
+    			add_location(circle, file, 203, 6, 4532);
+    			attr(g1, "class", "marker");
+    			attr(g1, "transform", g1_transform_value = "translate(" + (ctx.xScale(ctx.marker.column) + lineWidth / 2) + ", " + (ctx.yScale(ctx.marker.row) + lineWidth / 2) + ")");
+    			add_location(g1, file, 199, 4, 4388);
+    			attr(svg, "viewBox", svg_viewBox_value = "0 0 " + width + " " + height);
+    			attr(svg, "width", "100%");
+    			attr(svg, "preserveAspectRatio", "xMidYMid meet");
+    			attr(svg, "class", "svelte-cwz51f");
+    			add_location(svg, file, 179, 1, 3687);
     			add_render_callback(() => ctx.div_resize_handler.call(div));
-    			attr(div, "class", "chart svelte-1mmigak");
-    			add_location(div, file, 103, 0, 1687);
+    			attr(div, "class", "board svelte-cwz51f");
+    			add_location(div, file, 173, 0, 3587);
+    			dispose = listen(window, "keydown", ctx.onKeyDown);
     		},
 
     		l: function claim(nodes) {
@@ -3205,166 +2993,24 @@ var app = (function () {
     		},
 
     		m: function mount(target, anchor) {
-    			insert(target, h20, anchor);
-    			insert(target, t1, anchor);
-    			insert(target, h21, anchor);
-    			append(h21, t2);
-    			insert(target, t3, anchor);
+    			insert(target, h2, anchor);
+    			insert(target, t_1, anchor);
     			insert(target, div, anchor);
-    			append(div, svg0);
-    			append(svg0, g0);
-
-    			for (var i = 0; i < each_blocks_5.length; i += 1) {
-    				each_blocks_5[i].m(g0, null);
-    			}
-
-    			append(svg0, g1);
-
-    			for (var i = 0; i < each_blocks_4.length; i += 1) {
-    				each_blocks_4[i].m(g1, null);
-    			}
-
-    			append(svg0, g2);
-
-    			for (var i = 0; i < each_blocks_3.length; i += 1) {
-    				each_blocks_3[i].m(g2, null);
-    			}
-
-    			append(div, t4);
-    			append(div, svg1);
-    			append(svg1, g3);
-
-    			for (var i = 0; i < each_blocks_2.length; i += 1) {
-    				each_blocks_2[i].m(g3, null);
-    			}
-
-    			append(svg1, g4);
-
-    			for (var i = 0; i < each_blocks_1.length; i += 1) {
-    				each_blocks_1[i].m(g4, null);
-    			}
-
-    			append(svg1, g5);
+    			append(div, svg);
+    			append(svg, g0);
 
     			for (var i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(g5, null);
+    				each_blocks[i].m(g0, null);
     			}
 
+    			append(svg, g1);
+    			append(g1, circle);
     			div_resize_listener = add_resize_listener(div, ctx.div_resize_handler.bind(div));
     		},
 
     		p: function update(changed, ctx) {
-    			if ((changed.$mazeGrid) && t2_value !== (t2_value = ctx.$mazeGrid.rowCount)) {
-    				set_data(t2, t2_value);
-    			}
-
-    			if (changed.yTicks || changed.yScale || changed.padding) {
-    				each_value_5 = ctx.yTicks;
-
-    				for (var i = 0; i < each_value_5.length; i += 1) {
-    					const child_ctx = get_each_context_5(ctx, each_value_5, i);
-
-    					if (each_blocks_5[i]) {
-    						each_blocks_5[i].p(changed, child_ctx);
-    					} else {
-    						each_blocks_5[i] = create_each_block_5(child_ctx);
-    						each_blocks_5[i].c();
-    						each_blocks_5[i].m(g0, null);
-    					}
-    				}
-
-    				for (; i < each_blocks_5.length; i += 1) {
-    					each_blocks_5[i].d(1);
-    				}
-    				each_blocks_5.length = each_value_5.length;
-    			}
-
-    			if (changed.xScale || changed.height || changed.barWidth || changed.width || changed.points || changed.formatMobile) {
-    				each_value_4 = ctx.points;
-
-    				for (var i = 0; i < each_value_4.length; i += 1) {
-    					const child_ctx = get_each_context_4(ctx, each_value_4, i);
-
-    					if (each_blocks_4[i]) {
-    						each_blocks_4[i].p(changed, child_ctx);
-    					} else {
-    						each_blocks_4[i] = create_each_block_4(child_ctx);
-    						each_blocks_4[i].c();
-    						each_blocks_4[i].m(g1, null);
-    					}
-    				}
-
-    				for (; i < each_blocks_4.length; i += 1) {
-    					each_blocks_4[i].d(1);
-    				}
-    				each_blocks_4.length = each_value_4.length;
-    			}
-
-    			if (changed.xScale || changed.yScale || changed.points || changed.barWidth || changed.height || changed.padding) {
-    				each_value_3 = ctx.points;
-
-    				for (var i = 0; i < each_value_3.length; i += 1) {
-    					const child_ctx = get_each_context_3(ctx, each_value_3, i);
-
-    					if (each_blocks_3[i]) {
-    						each_blocks_3[i].p(changed, child_ctx);
-    					} else {
-    						each_blocks_3[i] = create_each_block_3(child_ctx);
-    						each_blocks_3[i].c();
-    						each_blocks_3[i].m(g2, null);
-    					}
-    				}
-
-    				for (; i < each_blocks_3.length; i += 1) {
-    					each_blocks_3[i].d(1);
-    				}
-    				each_blocks_3.length = each_value_3.length;
-    			}
-
-    			if (changed.$mazeGrid) {
-    				each_value_2 = ctx.$mazeGrid.columns;
-
-    				for (var i = 0; i < each_value_2.length; i += 1) {
-    					const child_ctx = get_each_context_2(ctx, each_value_2, i);
-
-    					if (each_blocks_2[i]) {
-    						each_blocks_2[i].p(changed, child_ctx);
-    					} else {
-    						each_blocks_2[i] = create_each_block_2(child_ctx);
-    						each_blocks_2[i].c();
-    						each_blocks_2[i].m(g3, null);
-    					}
-    				}
-
-    				for (; i < each_blocks_2.length; i += 1) {
-    					each_blocks_2[i].d(1);
-    				}
-    				each_blocks_2.length = each_value_2.length;
-    			}
-
-    			if (changed.$mazeGrid) {
-    				each_value_1 = ctx.$mazeGrid.rows;
-
-    				for (var i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
-
-    					if (each_blocks_1[i]) {
-    						each_blocks_1[i].p(changed, child_ctx);
-    					} else {
-    						each_blocks_1[i] = create_each_block_1(child_ctx);
-    						each_blocks_1[i].c();
-    						each_blocks_1[i].m(g4, null);
-    					}
-    				}
-
-    				for (; i < each_blocks_1.length; i += 1) {
-    					each_blocks_1[i].d(1);
-    				}
-    				each_blocks_1.length = each_value_1.length;
-    			}
-
-    			if (changed.xScale || changed.yScale || changed.points || changed.barWidth || changed.height || changed.padding) {
-    				each_value = ctx.points;
+    			if (changed.$mazeGrid || changed.xScale || changed.lineWidth || changed.yScale || changed.isSpaceAt || changed.squareWidth || changed.squareHeight) {
+    				each_value = [...Array(ctx.$mazeGrid.rowCount).keys()];
 
     				for (var i = 0; i < each_value.length; i += 1) {
     					const child_ctx = get_each_context(ctx, each_value, i);
@@ -3374,7 +3020,7 @@ var app = (function () {
     					} else {
     						each_blocks[i] = create_each_block(child_ctx);
     						each_blocks[i].c();
-    						each_blocks[i].m(g5, null);
+    						each_blocks[i].m(g0, null);
     					}
     				}
 
@@ -3383,6 +3029,22 @@ var app = (function () {
     				}
     				each_blocks.length = each_value.length;
     			}
+
+    			if ((changed.squareWidth) && circle_cx_value !== (circle_cx_value = ctx.squareWidth/2)) {
+    				attr(circle, "cx", circle_cx_value);
+    			}
+
+    			if ((changed.squareHeight) && circle_cy_value !== (circle_cy_value = ctx.squareHeight/2)) {
+    				attr(circle, "cy", circle_cy_value);
+    			}
+
+    			if ((changed.squareWidth) && circle_r_value !== (circle_r_value = ctx.squareWidth/4)) {
+    				attr(circle, "r", circle_r_value);
+    			}
+
+    			if ((changed.xScale || changed.marker || changed.yScale) && g1_transform_value !== (g1_transform_value = "translate(" + (ctx.xScale(ctx.marker.column) + lineWidth / 2) + ", " + (ctx.yScale(ctx.marker.row) + lineWidth / 2) + ")")) {
+    				attr(g1, "transform", g1_transform_value);
+    			}
     		},
 
     		i: noop,
@@ -3390,33 +3052,24 @@ var app = (function () {
 
     		d: function destroy(detaching) {
     			if (detaching) {
-    				detach(h20);
-    				detach(t1);
-    				detach(h21);
-    				detach(t3);
+    				detach(h2);
+    				detach(t_1);
     				detach(div);
     			}
-
-    			destroy_each(each_blocks_5, detaching);
-
-    			destroy_each(each_blocks_4, detaching);
-
-    			destroy_each(each_blocks_3, detaching);
-
-    			destroy_each(each_blocks_2, detaching);
-
-    			destroy_each(each_blocks_1, detaching);
 
     			destroy_each(each_blocks, detaching);
 
     			div_resize_listener.cancel();
+    			dispose();
     		}
     	};
     }
 
-    function formatMobile(tick) {
-    	return "'" + tick % 100;
-    }
+    let width = 1000;
+
+    let height = 1000;
+
+    let lineWidth = 1;
 
     function instance($$self, $$props, $$invalidate) {
     	let $mazeGrid;
@@ -3426,57 +3079,119 @@ var app = (function () {
 
     	
 
-    	const points = [
-    		{ year: 1990, birthrate: 16.7 },
-    		{ year: 1995, birthrate: 14.6 },
-    		{ year: 2000, birthrate: 14.4 },
-    		{ year: 2005, birthrate: 14 },
-    		{ year: 2010, birthrate: 13 },
-    		{ year: 2015, birthrate: 12.4 }
-    	];
+    	const padding = { top: 10, right: 10, bottom: 10, left: 10 };
 
-    	const xTicks = [1990, 1995, 2000, 2005, 2010, 2015];
-    	const yTicks = [0, 5, 10, 15, 20];
-    	const padding = { top: 20, right: 15, bottom: 20, left: 25 };
+      let clientWidth = 0;
+      let clientHeight = 0;
+      let marker = {row:0, column: 0};
 
-    	let width = 500;
-    	let height = 200;
+
+      function addressToIndex( row, column ) { 
+        return row * $mazeGrid.columnCount + column;
+      }
+
+      function canMoveMarker( incRow, incColumn ){
+        let newRow = marker.row + incRow;
+        let newColumn = marker.column + incColumn;
+        return isSpaceAt( newRow, newColumn );
+      }
+
+      function isSpaceAt( row, column ){
+        let index = addressToIndex( row, column );
+        return $mazeGrid.spaces.indexOf( index ) > -1;
+      }
+
+      function moveMarker( incRow, incColumn ){
+        marker.row = marker.row + incRow; $$invalidate('marker', marker);
+        marker.column = marker.column + incColumn; $$invalidate('marker', marker);
+      }
+
+      // Events
+      function onKeyDown(event) {
+        console.log( event.key );
+
+    		switch (event.key) {
+    			case "ArrowDown":
+            event.preventDefault();
+            if ( canMoveMarker(1,0) ) {
+              moveMarker(1,0);
+            }
+            break;
+            
+    			case "ArrowUp":
+    				event.preventDefault();
+            if ( canMoveMarker(-1,0) ) {
+              moveMarker(-1,0);
+            }
+            break;
+            
+          case "ArrowLeft":
+    				event.preventDefault();
+            if ( canMoveMarker(0,-1) ) {
+              moveMarker(0,-1);
+            }
+            break;
+            
+    			case "ArrowRight":
+    				event.preventDefault();
+            if ( canMoveMarker(0,1) ) {
+              moveMarker(0,1);
+            }
+            break;
+            
+    			default:
+    				// just eat it
+        }
+        console.log( marker );
+      }
+
       
-
-      mazeGrid.setRowCount( 10 );
-      mazeGrid.setColumnCount( 10 );
+      function onSquareClick( event ){
+        let row = parseInt( event.target.dataset.row, 10 );
+        let column = parseInt( event.target.dataset.column, 10 );
+        let index = addressToIndex( row, column );
+        console.log( { row, column } );
+        if ( isSpaceAt( row, column ) ) {
+          mazeGrid.removeSpace( index );
+        } 
+        else {
+          mazeGrid.addSpace( index );
+        }  
+      }
 
     	function div_resize_handler() {
-    		width = this.clientWidth;
-    		height = this.clientHeight;
-    		$$invalidate('width', width);
-    		$$invalidate('height', height);
+    		clientWidth = this.clientWidth;
+    		clientHeight = this.clientHeight;
+    		$$invalidate('clientWidth', clientWidth);
+    		$$invalidate('clientHeight', clientHeight);
     	}
 
-    	let xScale, yScale, innerWidth, barWidth;
+    	let xScale, yScale, squareHeight, squareWidth;
 
-    	$$self.$$.update = ($$dirty = { width: 1, height: 1, innerWidth: 1, $mazeGrid: 1 }) => {
-    		if ($$dirty.width) { $$invalidate('xScale', xScale = linear$1()
-    				.domain([0, xTicks.length])
-    				.range([padding.left, width - padding.right])); }
-    		if ($$dirty.height) { $$invalidate('yScale', yScale = linear$1()
-    				.domain([0, Math.max.apply(null, yTicks)])
-    				.range([height - padding.bottom, padding.top])); }
-    		if ($$dirty.width) { $$invalidate('innerWidth', innerWidth = width - (padding.left + padding.right)); }
-    		if ($$dirty.innerWidth) { $$invalidate('barWidth', barWidth = innerWidth / xTicks.length); }
-    		if ($$dirty.$mazeGrid) { console.log( $mazeGrid ); }
+    	$$self.$$.update = ($$dirty = { $mazeGrid: 1, width: 1, height: 1, lineWidth: 1 }) => {
+    		if ($$dirty.$mazeGrid || $$dirty.width) { $$invalidate('xScale', xScale = linear$1()
+        		.domain([0, $mazeGrid.columnCount])
+        		.range([padding.left, width - padding.right])); }
+    		if ($$dirty.$mazeGrid || $$dirty.height) { $$invalidate('yScale', yScale = linear$1()
+        		.domain([0, $mazeGrid.rowCount])
+        		.range([padding.top, height - padding.bottom])); }
+    		if ($$dirty.width) ;
+    		if ($$dirty.height || $$dirty.$mazeGrid || $$dirty.lineWidth) { $$invalidate('squareHeight', squareHeight = height / $mazeGrid.rowCount - lineWidth * 4); }
+    		if ($$dirty.width || $$dirty.$mazeGrid || $$dirty.lineWidth) { $$invalidate('squareWidth', squareWidth = width / $mazeGrid.columnCount - lineWidth * 4); }
     	};
 
     	return {
-    		points,
-    		yTicks,
-    		padding,
-    		width,
-    		height,
+    		clientWidth,
+    		clientHeight,
+    		marker,
+    		isSpaceAt,
+    		onKeyDown,
+    		onSquareClick,
     		xScale,
-    		yScale,
-    		barWidth,
     		$mazeGrid,
+    		yScale,
+    		squareHeight,
+    		squareWidth,
     		div_resize_handler
     	};
     }
@@ -3492,7 +3207,7 @@ var app = (function () {
 
     const file$1 = "src/App.svelte";
 
-    // (83:6) <Button>
+    // (116:6) <Button>
     function create_default_slot(ctx) {
     	var t;
 
@@ -3514,9 +3229,9 @@ var app = (function () {
     }
 
     function create_fragment$1(ctx) {
-    	var div8, nav, div0, a, img, t0, button0, span0, t1, span1, t2, span2, t3, div7, div3, button1, t5, span3, t7, div2, span4, t9, div1, span5, t11, span6, t13, span7, t15, hr, t16, span8, t18, div6, div5, div4, span9, strong0, t20, span10, t22, section, h1, t24, h2, t25, strong1, t27, t28, t29, current;
+    	var div8, nav, div0, a0, img, t0, button0, span0, t1, span1, t2, span2, t3, div7, div3, a1, t5, a2, t7, div2, span3, t9, div1, span4, t11, span5, t13, span6, t15, hr, t16, span7, t18, div6, div5, div4, span8, strong0, t20, span9, t22, section, h1, t24, h2, t25, strong1, t27, t28, t29, current;
 
-    	var button2 = new Ne({
+    	var button1 = new Ne({
     		props: {
     		$$slots: { default: [create_default_slot] },
     		$$scope: { ctx }
@@ -3531,7 +3246,7 @@ var app = (function () {
     			div8 = element("div");
     			nav = element("nav");
     			div0 = element("div");
-    			a = element("a");
+    			a0 = element("a");
     			img = element("img");
     			t0 = space();
     			button0 = element("button");
@@ -3543,40 +3258,40 @@ var app = (function () {
     			t3 = space();
     			div7 = element("div");
     			div3 = element("div");
-    			button1 = element("button");
-    			button1.textContent = "Home";
+    			a1 = element("a");
+    			a1.textContent = "Home";
     			t5 = space();
-    			span3 = element("span");
-    			span3.textContent = "Documentation";
+    			a2 = element("a");
+    			a2.textContent = "Documentation";
     			t7 = space();
     			div2 = element("div");
-    			span4 = element("span");
-    			span4.textContent = "More";
+    			span3 = element("span");
+    			span3.textContent = "More";
     			t9 = space();
     			div1 = element("div");
-    			span5 = element("span");
-    			span5.textContent = "About";
+    			span4 = element("span");
+    			span4.textContent = "About";
     			t11 = space();
-    			span6 = element("span");
-    			span6.textContent = "Jobs";
+    			span5 = element("span");
+    			span5.textContent = "Jobs";
     			t13 = space();
-    			span7 = element("span");
-    			span7.textContent = "Contact";
+    			span6 = element("span");
+    			span6.textContent = "Contact";
     			t15 = space();
     			hr = element("hr");
     			t16 = space();
-    			span8 = element("span");
-    			span8.textContent = "Report an issue";
+    			span7 = element("span");
+    			span7.textContent = "Report an issue";
     			t18 = space();
     			div6 = element("div");
     			div5 = element("div");
     			div4 = element("div");
-    			span9 = element("span");
+    			span8 = element("span");
     			strong0 = element("strong");
     			strong0.textContent = "Sign up";
     			t20 = space();
-    			span10 = element("span");
-    			span10.textContent = "Log in now";
+    			span9 = element("span");
+    			span9.textContent = "Log in now";
     			t22 = space();
     			section = element("section");
     			h1 = element("h1");
@@ -3588,80 +3303,80 @@ var app = (function () {
     			strong1.textContent = "sections";
     			t27 = text(", like the one you're currently reading");
     			t28 = space();
-    			button2.$$.fragment.c();
+    			button1.$$.fragment.c();
     			t29 = space();
     			maze.$$.fragment.c();
     			attr(img, "src", "https://bulma.io/images/bulma-logo.png");
     			attr(img, "width", "112");
     			attr(img, "height", "28");
     			attr(img, "alt", "bulma-logo");
-    			add_location(img, file$1, 19, 8, 374);
-    			attr(a, "class", "navbar-item");
-    			attr(a, "href", "https://bulma.io");
-    			add_location(a, file$1, 18, 6, 318);
+    			add_location(img, file$1, 51, 8, 1247);
+    			attr(a0, "class", "navbar-item svelte-1epnmo0");
+    			attr(a0, "href", "https://bulma.io");
+    			add_location(a0, file$1, 50, 6, 1191);
     			attr(span0, "aria-hidden", "true");
-    			add_location(span0, file$1, 23, 8, 617);
+    			add_location(span0, file$1, 56, 8, 1499);
     			attr(span1, "aria-hidden", "true");
-    			add_location(span1, file$1, 24, 8, 658);
+    			add_location(span1, file$1, 57, 8, 1540);
     			attr(span2, "aria-hidden", "true");
-    			add_location(span2, file$1, 25, 8, 699);
+    			add_location(span2, file$1, 58, 8, 1581);
     			attr(button0, "role", "button");
     			attr(button0, "class", "navbar-burger burger");
     			attr(button0, "aria-label", "menu");
     			attr(button0, "aria-expanded", "false");
     			attr(button0, "data-target", "navbarBasicExample");
-    			add_location(button0, file$1, 22, 6, 484);
+    			add_location(button0, file$1, 55, 6, 1366);
     			attr(div0, "class", "navbar-brand");
-    			add_location(div0, file$1, 17, 4, 285);
-    			attr(button1, "class", "navbar-item button is-text");
-    			add_location(button1, file$1, 31, 8, 855);
-    			attr(span3, "class", "navbar-item");
-    			add_location(span3, file$1, 35, 8, 941);
-    			attr(span4, "class", "navbar-link");
-    			add_location(span4, file$1, 40, 10, 1079);
+    			add_location(div0, file$1, 49, 4, 1158);
+    			attr(a1, "class", "navbar-item svelte-1epnmo0");
+    			add_location(a1, file$1, 64, 8, 1737);
+    			attr(a2, "class", "navbar-item svelte-1epnmo0");
+    			add_location(a2, file$1, 68, 8, 1798);
+    			attr(span3, "class", "navbar-link");
+    			add_location(span3, file$1, 73, 10, 1930);
+    			attr(span4, "class", "navbar-item");
+    			add_location(span4, file$1, 78, 12, 2045);
     			attr(span5, "class", "navbar-item");
-    			add_location(span5, file$1, 45, 12, 1194);
+    			add_location(span5, file$1, 81, 12, 2124);
     			attr(span6, "class", "navbar-item");
-    			add_location(span6, file$1, 48, 12, 1273);
-    			attr(span7, "class", "navbar-item");
-    			add_location(span7, file$1, 51, 12, 1351);
+    			add_location(span6, file$1, 84, 12, 2202);
     			attr(hr, "class", "navbar-divider");
-    			add_location(hr, file$1, 54, 12, 1432);
-    			attr(span8, "class", "navbar-item");
-    			add_location(span8, file$1, 55, 12, 1472);
+    			add_location(hr, file$1, 87, 12, 2283);
+    			attr(span7, "class", "navbar-item");
+    			add_location(span7, file$1, 88, 12, 2323);
     			attr(div1, "class", "navbar-dropdown");
-    			add_location(div1, file$1, 44, 10, 1152);
+    			add_location(div1, file$1, 77, 10, 2003);
     			attr(div2, "class", "navbar-item has-dropdown is-hoverable");
-    			add_location(div2, file$1, 39, 8, 1017);
+    			add_location(div2, file$1, 72, 8, 1868);
     			attr(div3, "class", "navbar-start");
-    			add_location(div3, file$1, 30, 6, 820);
-    			add_location(strong0, file$1, 66, 14, 1753);
-    			attr(span9, "class", "button is-primary");
-    			add_location(span9, file$1, 65, 12, 1706);
-    			attr(span10, "class", "button is-light");
-    			add_location(span10, file$1, 68, 12, 1810);
+    			add_location(div3, file$1, 63, 6, 1702);
+    			add_location(strong0, file$1, 99, 14, 2604);
+    			attr(span8, "class", "button is-primary");
+    			add_location(span8, file$1, 98, 12, 2557);
+    			attr(span9, "class", "button is-light");
+    			add_location(span9, file$1, 101, 12, 2661);
     			attr(div4, "class", "buttons");
-    			add_location(div4, file$1, 64, 10, 1672);
+    			add_location(div4, file$1, 97, 10, 2523);
     			attr(div5, "class", "navbar-item");
-    			add_location(div5, file$1, 63, 8, 1636);
+    			add_location(div5, file$1, 96, 8, 2487);
     			attr(div6, "class", "navbar-end");
-    			add_location(div6, file$1, 62, 6, 1601);
+    			add_location(div6, file$1, 95, 6, 2452);
     			attr(div7, "id", "navbarBasicExample");
     			attr(div7, "class", "navbar-menu");
-    			add_location(div7, file$1, 29, 4, 764);
+    			add_location(div7, file$1, 62, 4, 1646);
     			attr(nav, "class", "navbar");
     			attr(nav, "role", "navigation");
     			attr(nav, "aria-label", "main navigation");
-    			add_location(nav, file$1, 16, 2, 213);
-    			attr(h1, "class", "title svelte-i7qo5m");
-    			add_location(h1, file$1, 78, 6, 1986);
-    			add_location(strong1, file$1, 80, 52, 2094);
+    			add_location(nav, file$1, 48, 2, 1086);
+    			attr(h1, "class", "title svelte-1epnmo0");
+    			add_location(h1, file$1, 111, 6, 2837);
+    			add_location(strong1, file$1, 113, 52, 2945);
     			attr(h2, "class", "subtitle");
-    			add_location(h2, file$1, 79, 6, 2020);
+    			add_location(h2, file$1, 112, 6, 2871);
     			attr(section, "class", "section");
-    			add_location(section, file$1, 77, 2, 1954);
+    			add_location(section, file$1, 110, 2, 2805);
     			attr(div8, "class", "container");
-    			add_location(div8, file$1, 14, 0, 186);
+    			add_location(div8, file$1, 46, 0, 1059);
     		},
 
     		l: function claim(nodes) {
@@ -3672,8 +3387,8 @@ var app = (function () {
     			insert(target, div8, anchor);
     			append(div8, nav);
     			append(nav, div0);
-    			append(div0, a);
-    			append(a, img);
+    			append(div0, a0);
+    			append(a0, img);
     			append(div0, t0);
     			append(div0, button0);
     			append(button0, span0);
@@ -3684,31 +3399,31 @@ var app = (function () {
     			append(nav, t3);
     			append(nav, div7);
     			append(div7, div3);
-    			append(div3, button1);
+    			append(div3, a1);
     			append(div3, t5);
-    			append(div3, span3);
+    			append(div3, a2);
     			append(div3, t7);
     			append(div3, div2);
-    			append(div2, span4);
+    			append(div2, span3);
     			append(div2, t9);
     			append(div2, div1);
-    			append(div1, span5);
+    			append(div1, span4);
     			append(div1, t11);
-    			append(div1, span6);
+    			append(div1, span5);
     			append(div1, t13);
-    			append(div1, span7);
+    			append(div1, span6);
     			append(div1, t15);
     			append(div1, hr);
     			append(div1, t16);
-    			append(div1, span8);
+    			append(div1, span7);
     			append(div7, t18);
     			append(div7, div6);
     			append(div6, div5);
     			append(div5, div4);
-    			append(div4, span9);
-    			append(span9, strong0);
+    			append(div4, span8);
+    			append(span8, strong0);
     			append(div4, t20);
-    			append(div4, span10);
+    			append(div4, span9);
     			append(div8, t22);
     			append(div8, section);
     			append(section, h1);
@@ -3718,21 +3433,21 @@ var app = (function () {
     			append(h2, strong1);
     			append(h2, t27);
     			append(section, t28);
-    			mount_component(button2, section, null);
+    			mount_component(button1, section, null);
     			append(section, t29);
     			mount_component(maze, section, null);
     			current = true;
     		},
 
     		p: function update(changed, ctx) {
-    			var button2_changes = {};
-    			if (changed.$$scope) button2_changes.$$scope = { changed, ctx };
-    			button2.$set(button2_changes);
+    			var button1_changes = {};
+    			if (changed.$$scope) button1_changes.$$scope = { changed, ctx };
+    			button1.$set(button1_changes);
     		},
 
     		i: function intro(local) {
     			if (current) return;
-    			transition_in(button2.$$.fragment, local);
+    			transition_in(button1.$$.fragment, local);
 
     			transition_in(maze.$$.fragment, local);
 
@@ -3740,7 +3455,7 @@ var app = (function () {
     		},
 
     		o: function outro(local) {
-    			transition_out(button2.$$.fragment, local);
+    			transition_out(button1.$$.fragment, local);
     			transition_out(maze.$$.fragment, local);
     			current = false;
     		},
@@ -3750,7 +3465,7 @@ var app = (function () {
     				detach(div8);
     			}
 
-    			destroy_component(button2);
+    			destroy_component(button1);
 
     			destroy_component(maze);
     		}
@@ -3759,6 +3474,31 @@ var app = (function () {
 
     function instance$1($$self, $$props, $$invalidate) {
     	let { name } = $$props;
+
+
+      onMount( function(){
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Check if there are any navbar burgers
+        if ($navbarBurgers.length > 0) {
+
+          // Add a click event on each of them
+          $navbarBurgers.forEach( el => {
+            el.addEventListener('click', () => {
+
+              // Get the target from the "data-target" attribute
+              const target = el.dataset.target;
+              const $target = document.getElementById(target);
+
+              // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+              el.classList.toggle('is-active');
+              $target.classList.toggle('is-active');
+
+            });
+          });
+        }
+      });
 
     	const writable_props = ['name'];
     	Object.keys($$props).forEach(key => {
