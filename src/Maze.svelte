@@ -26,6 +26,9 @@
   $: squareHeight = height / $mazeGrid.rowCount - lineWidth * 4;
   $: squareWidth = width / $mazeGrid.columnCount - lineWidth * 4;
 
+  // $: markerStyle = `transform: translate(${marker.column * 5}%, ${marker.row * 5}%); transition: transform 0.3s ease-out`;
+  $: markerStyle = `transform: translate(${xScale(marker.column) + lineWidth / 2}px, ${yScale(marker.row) + lineWidth / 2}px); transition: transform 0.3s ease-out`;
+  
 
   function addressToIndex( row, column ) { 
     return row * $mazeGrid.columnCount + column;
@@ -64,16 +67,23 @@
     marker.column = marker.column + incColumn;
   }
 
-  function whoosh(node, params) {
-		const existingTransform = getComputedStyle(node).transform.replace('none', '');
-
+	function spin(node, { duration }) {
 		return {
-			delay: params.delay || 0,
-			duration: params.duration || 400,
-			easing: params.easing || elasticOut,
-			css: (t, u) => `transform: ${existingTransform} scale(${t})`
+			duration,
+			css: t => {
+				const eased = elasticOut(t);
+
+				return `
+					transform: scale(${eased}) rotate(${eased * 1080}deg);
+					color: hsl(
+						${~~(t * 360)},
+						${Math.min(100, 1000 - 1000 * t)}%,
+						${Math.min(50, 500 - 500 * t)}%
+					);`
+			}
 		};
-	}
+	}  
+
 
   // Events
   function onKeyDown(event) {
@@ -204,7 +214,7 @@
 
     <g 
       class="marker"
-      transform="translate({xScale(marker.column) + lineWidth / 2}, {yScale(marker.row) + lineWidth / 2})"
+      style="{markerStyle}"
     >
       <circle 
         cx="{squareWidth/2}" 
