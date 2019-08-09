@@ -2816,7 +2816,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (183:8) {#each [...Array($mazeGrid.columnCount).keys()] as column}
+    // (188:8) {#each [...Array($mazeGrid.columnCount).keys()] as column}
     function create_each_block_1(ctx) {
     	var g, rect, rect_data_row_value, rect_data_column_value, g_transform_value, dispose;
 
@@ -2829,11 +2829,11 @@ var app = (function () {
     			attr(rect, "data-row", rect_data_row_value = ctx.row);
     			attr(rect, "data-column", rect_data_column_value = ctx.column);
     			attr(rect, "class", "svelte-cwz51f");
-    			add_location(rect, file, 188, 12, 4136);
+    			add_location(rect, file, 193, 12, 4262);
     			attr(g, "class", "square svelte-cwz51f");
     			attr(g, "transform", g_transform_value = "translate(" + (ctx.xScale(ctx.column) + lineWidth / 2) + ", " + (ctx.yScale(ctx.row) + lineWidth / 2) + ")");
     			toggle_class(g, "space", ctx.isSpaceAt(ctx.row,ctx.column));
-    			add_location(g, file, 183, 10, 3931);
+    			add_location(g, file, 188, 10, 4057);
     			dispose = listen(rect, "click", ctx.onSquareClick);
     		},
 
@@ -2878,7 +2878,7 @@ var app = (function () {
     	};
     }
 
-    // (182:6) {#each [...Array($mazeGrid.rowCount).keys()] as row}
+    // (187:6) {#each [...Array($mazeGrid.rowCount).keys()] as row}
     function create_each_block(ctx) {
     	var each_1_anchor;
 
@@ -2967,24 +2967,24 @@ var app = (function () {
     			g1 = svg_element("g");
     			circle = svg_element("circle");
     			attr(h2, "class", "svelte-cwz51f");
-    			add_location(h2, file, 169, 0, 3525);
+    			add_location(h2, file, 174, 0, 3651);
     			attr(g0, "class", "squares");
-    			add_location(g0, file, 180, 2, 3775);
+    			add_location(g0, file, 185, 2, 3901);
     			attr(circle, "cx", circle_cx_value = ctx.squareWidth/2);
     			attr(circle, "cy", circle_cy_value = ctx.squareHeight/2);
     			attr(circle, "r", circle_r_value = ctx.squareWidth/4);
-    			add_location(circle, file, 203, 6, 4532);
+    			add_location(circle, file, 208, 6, 4658);
     			attr(g1, "class", "marker");
     			attr(g1, "transform", g1_transform_value = "translate(" + (ctx.xScale(ctx.marker.column) + lineWidth / 2) + ", " + (ctx.yScale(ctx.marker.row) + lineWidth / 2) + ")");
-    			add_location(g1, file, 199, 4, 4388);
+    			add_location(g1, file, 204, 4, 4514);
     			attr(svg, "viewBox", svg_viewBox_value = "0 0 " + width + " " + height);
     			attr(svg, "width", "100%");
     			attr(svg, "preserveAspectRatio", "xMidYMid meet");
     			attr(svg, "class", "svelte-cwz51f");
-    			add_location(svg, file, 179, 1, 3687);
+    			add_location(svg, file, 184, 1, 3813);
     			add_render_callback(() => ctx.div_resize_handler.call(div));
     			attr(div, "class", "board svelte-cwz51f");
-    			add_location(div, file, 173, 0, 3587);
+    			add_location(div, file, 178, 0, 3713);
     			dispose = listen(window, "keydown", ctx.onKeyDown);
     		},
 
@@ -3093,7 +3093,12 @@ var app = (function () {
       function canMoveMarker( incRow, incColumn ){
         let newRow = marker.row + incRow;
         let newColumn = marker.column + incColumn;
-        return isSpaceAt( newRow, newColumn );
+
+        return newRow > -1 &&
+          newRow < $mazeGrid.rowCount &&
+          newColumn > -1 &&
+          newColumn < $mazeGrid.columnCount &&
+          isSpaceAt( newRow, newColumn );
       }
 
       function isSpaceAt( row, column ){

@@ -34,7 +34,12 @@
   function canMoveMarker( incRow, incColumn ){
     let newRow = marker.row + incRow;
     let newColumn = marker.column + incColumn;
-    return isSpaceAt( newRow, newColumn );
+
+    return newRow > -1 &&
+      newRow < $mazeGrid.rowCount &&
+      newColumn > -1 &&
+      newColumn < $mazeGrid.columnCount &&
+      isSpaceAt( newRow, newColumn );
   }
 
 
