@@ -5,6 +5,7 @@
   import 'bulma/css/bulma.css'
   import { Button } from 'svelma' 
   import Maze from './Maze.svelte';
+  import Mazes from './Mazes.svelte';
 
 
   onMount( function(){
@@ -115,7 +116,7 @@
       </h2>
       <Button>Hello</Button>
 
-      <Maze />
+      <Mazes />
   </section>
 
 </div>

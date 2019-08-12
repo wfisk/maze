@@ -1,6 +1,11 @@
 <script>
+  export let rowCount = 10;
+  export let columnCount = 10;
+  export let spaces = [];
+
   import { scaleLinear } from 'd3-scale';
-  import { mazeGrid } from './stores/maze-grid.js';
+
+  
 
 	const padding = { top: 10, right: 10, bottom: 10, left: 10 };
 
@@ -11,45 +16,68 @@
   let height = 1000;
   let lineWidth = 1;
   let marker = {row:0, column: 0};
-
+  $: mazeGrid = {
+    rowCount,
+    columnCount,
+    spaces,
+    addSpace() {},
+    removeSpace() {},
+  };
 
 	$: xScale = scaleLinear()
-		.domain([0, $mazeGrid.columnCount])
+		.domain([0, mazeGrid.columnCount])
 		.range([padding.left, width - padding.right]);
 
 	$: yScale = scaleLinear()
-		.domain([0, $mazeGrid.rowCount])
+		.domain([0, mazeGrid.rowCount])
 		.range([padding.top, height - padding.bottom]);
 
   $: innerWidth = width - (padding.left + padding.right);
   
-  $: squareHeight = height / $mazeGrid.rowCount - lineWidth * 4;
-  $: squareWidth = width / $mazeGrid.columnCount - lineWidth * 4;
+  $: squareHeight = height / mazeGrid.rowCount - lineWidth * 4;
+  $: squareWidth = width / mazeGrid.columnCount - lineWidth * 4;
 
-  // $: markerStyle = `transform: translate(${marker.column * 5}%, ${marker.row * 5}%); transition: transform 0.3s ease-out`;
   $: markerStyle = `transform: translate(${xScale(marker.column) + lineWidth / 2}px, ${yScale(marker.row) + lineWidth / 2}px); transition: transform 0.3s ease-out`;
   
 
   function addressToIndex( row, column ) { 
-    return row * $mazeGrid.columnCount + column;
+    return row * mazeGrid.columnCount + column;
   }
+
+  function addSpace( value ){
+    update( self => {
+      spaces.push( value );
+      return self;
+    })
+  }
+
+
+	function removeSpace( value ){
+    update( self => {
+      let index = self.spaces.indexOf(value);
+      if (index !== -1) {
+        spaces.splice(index, 1);
+      }  
+      return self;
+      })
+  }  
 
   function canMoveMarker( incRow, incColumn ){
     let newRow = marker.row + incRow;
     let newColumn = marker.column + incColumn;
 
     return newRow > -1 &&
-      newRow < $mazeGrid.rowCount &&
+      newRow < mazeGrid.rowCount &&
       newColumn > -1 &&
-      newColumn < $mazeGrid.columnCount &&
+      newColumn < mazeGrid.columnCount &&
       isSpaceAt( newRow, newColumn );
   }
 
 
   function indexToAddress( index ) { 
     return {
-      row:     Math.floor( index / $mazeGrid.columnCount ),
-      column:  index % $mazeGrid.columnCount
+      row:     Math.floor( index / mazeGrid.columnCount ),
+      column:  index % mazeGrid.columnCount
     };
   }
 
@@ -59,7 +87,7 @@
 
   function isSpaceAt( row, column ){
     let index = addressToIndex( row, column );
-    return $mazeGrid.spaces.indexOf( index ) > -1;
+    return spaces.indexOf( index ) > -1;
   }
 
   function moveMarker( incRow, incColumn ){
@@ -131,10 +159,10 @@
     let index = addressToIndex( row, column );
     console.log( { row, column } );
     if ( isSpaceAt( row, column ) ) {
-      mazeGrid.removeSpace( index );
+      removeSpace( index );
     } 
     else {
-      mazeGrid.addSpace( index );
+      addSpace( index );
     }  
   }
 </script>
@@ -194,8 +222,8 @@
   
 	<svg viewBox="0 0 {width} {height}" width="100%" preserveAspectRatio="xMidYMid meet">
 		<g class='squares'>
-      {#each [...Array($mazeGrid.rowCount).keys()] as row}
-        {#each [...Array($mazeGrid.columnCount).keys()] as column}
+      {#each [...Array(mazeGrid.rowCount).keys()] as row}
+        {#each [...Array(mazeGrid.columnCount).keys()] as column}
           <g 
             class="square" 
             class:space={isSpaceAt(row,column)}
