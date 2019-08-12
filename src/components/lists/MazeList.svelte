@@ -1,0 +1,47 @@
+<script>
+  import { onMount } from 'svelte';
+  import { collectionData } from 'rxfire/firestore';
+  import { startWith } from 'rxjs/operators';
+  
+  import { firestore } from '../../config/firebase';
+  import MazeDesigner from '../designers/MazeDesigner.svelte';
+  import MazePlayer from '../players/MazePlayer.svelte';
+ 
+  
+  // User ID passed from parent
+  // export let uid;
+
+  // Form Text
+  let text = 'some task';
+
+  function add() {
+      firestore.collection('mazes').add({ uid, text, complete: false, created: Date.now() });
+      text = '';
+  }
+
+  function updateStatus(event) {
+      const { id, newStatus } = event.detail;
+      firestore.collection('mazes').doc(id).update({ complete: newStatus });
+  }
+
+  function removeItem(event) {
+      const { id } = event.detail;
+      firestore.collection('mazes').doc(id).delete();
+  }
+
+
+  const query = firestore.collection('mazes');
+  let mazes = collectionData( query, 'id' ).pipe(startWith([]));;
+  console.log({ mazes });
+
+</script>
+
+<style>
+  input { display: block }
+</style>
+
+<ul>
+  {#each $mazes as maze}
+    <MazeDesigner {...maze}  />
+  {/each}
+</ul>

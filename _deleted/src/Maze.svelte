@@ -1,9 +1,15 @@
 <script>
+  export let id;
   export let rowCount = 10;
   export let columnCount = 10;
   export let spaces = [];
 
   import { scaleLinear } from 'd3-scale';
+  import { onMount } from 'svelte';
+  import { firestore } from './firebase';
+  import { collectionData } from 'rxfire/firestore';
+  import { startWith } from 'rxjs/operators';
+
 
   
 
@@ -19,9 +25,7 @@
   $: mazeGrid = {
     rowCount,
     columnCount,
-    spaces,
-    addSpace() {},
-    removeSpace() {},
+    spaces
   };
 
 	$: xScale = scaleLinear()
@@ -45,22 +49,16 @@
   }
 
   function addSpace( value ){
-    update( self => {
-      spaces.push( value );
-      return self;
-    })
+    spaces = [...spaces, value ];
+    firestore.collection('mazes').doc(id).update({ spaces });
   }
 
 
 	function removeSpace( value ){
-    update( self => {
-      let index = self.spaces.indexOf(value);
-      if (index !== -1) {
-        spaces.splice(index, 1);
-      }  
-      return self;
-      })
+    spaces = spaces.filter( it => it !== value );
+    firestore.collection('mazes').doc(id).update({ spaces });
   }  
+
 
   function canMoveMarker( incRow, incColumn ){
     let newRow = marker.row + incRow;
@@ -165,6 +163,10 @@
       addSpace( index );
     }  
   }
+
+
+  const query = firestore.collection('mazes').where('id', '==', id);
+  const maze = collectionData(query, 'id').pipe(startWith([]));
 </script>
 
 <style>
