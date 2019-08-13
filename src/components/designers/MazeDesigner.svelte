@@ -6,7 +6,7 @@
 
   import { scaleLinear } from 'd3-scale';
   import { onMount } from 'svelte';
-  import { firestore } from '../../config/firebase';
+  import { firestore } from '../../services/firebase';
   import { collectionData } from 'rxfire/firestore';
   import { startWith } from 'rxjs/operators';
 

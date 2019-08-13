@@ -1,8 +1,9 @@
 <script>
   export let name;
 
-
   import 'bulma/css/bulma.css'
+  import '@fortawesome/fontawesome-free/css/all.css'
+
   import { Button } from 'svelma' 
   import NavBar from './components/navbars/NavBar.svelte';
   import Router from 'svelte-spa-router'

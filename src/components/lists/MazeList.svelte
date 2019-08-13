@@ -3,7 +3,7 @@
   import { collectionData } from 'rxfire/firestore';
   import { startWith } from 'rxjs/operators';
   
-  import { firestore } from '../../config/firebase';
+  import { firestore } from '../../services/firebase';
   import MazeDesigner from '../designers/MazeDesigner.svelte';
   import MazePlayer from '../players/MazePlayer.svelte';
  

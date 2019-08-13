@@ -1,0 +1,9 @@
+{
+  "apiKey": "AIzaSyAV2nZILUc7VeMUYIYbspEsRHq4iRzCMgU",
+  "authDomain": "svelte-start.firebaseapp.com",
+  "databaseURL": "https://svelte-start.firebaseio.com",
+  "projectId": "svelte-start",
+  "storageBucket": "svelte-start.appspot.com",
+  "messagingSenderId": "849968363816",
+  "appId": "1:849968363816:web:bdbd664be131cd60"
+}
