@@ -8,13 +8,13 @@ import config from '../config/firebase.json';
 firebase.initializeApp( config );
 
 // Cloud Firestore cls
-export const firestore = firebase.firestore();
+export const cfs = firebase.firestore();
 
 // Firebase Auth fba
 // 
 export const auth = firebase.auth();
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
-export const signInWithGoogle = () => auth.signInWithPopup( googleProvider );
+export const signInWithPopup = () => auth.signInWithPopup( googleProvider );
 // see https://fireship.io/lessons/svelte-v3-overview-firebase/
 // export const unsubscribe = authState(auth).subscribe(u => user = u);
 

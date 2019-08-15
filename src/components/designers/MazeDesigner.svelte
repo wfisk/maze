@@ -6,7 +6,7 @@
 
   import { scaleLinear } from 'd3-scale';
   import { onMount } from 'svelte';
-  import { firestore } from '../../services/firebase';
+  import { cfs } from '../../services/firebase';
   import { collectionData } from 'rxfire/firestore';
   import { startWith } from 'rxjs/operators';
 
@@ -50,13 +50,13 @@
 
   function addSpace( value ){
     spaces = [...spaces, value ];
-    firestore.collection('mazes').doc(id).update({ spaces });
+    cfs.collection('mazes').doc(id).update({ spaces });
   }
 
 
 	function removeSpace( value ){
     spaces = spaces.filter( it => it !== value );
-    firestore.collection('mazes').doc(id).update({ spaces });
+    cfs.collection('mazes').doc(id).update({ spaces });
   }  
 
 
@@ -165,7 +165,7 @@
   }
 
 
-  const query = firestore.collection('mazes').where('id', '==', id);
+  const query = cfs.collection('mazes').where('id', '==', id);
   const maze = collectionData(query, 'id').pipe(startWith([]));
 </script>
 

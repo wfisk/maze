@@ -3,7 +3,7 @@
   import { collectionData } from 'rxfire/firestore';
   import { startWith } from 'rxjs/operators';
   
-  import { firestore } from '../../services/firebase';
+  import { cfs } from '../../services/firebase';
   import MazeDesigner from '../designers/MazeDesigner.svelte';
   import MazePlayer from '../players/MazePlayer.svelte';
  
@@ -15,22 +15,22 @@
   let text = 'some task';
 
   function add() {
-      firestore.collection('mazes').add({ uid, text, complete: false, created: Date.now() });
+      cfs.collection('mazes').add({ uid, text, complete: false, created: Date.now() });
       text = '';
   }
 
   function updateStatus(event) {
       const { id, newStatus } = event.detail;
-      firestore.collection('mazes').doc(id).update({ complete: newStatus });
+      cfs.collection('mazes').doc(id).update({ complete: newStatus });
   }
 
   function removeItem(event) {
       const { id } = event.detail;
-      firestore.collection('mazes').doc(id).delete();
+      cfs.collection('mazes').doc(id).delete();
   }
 
 
-  const query = firestore.collection('mazes');
+  const query = cfs.collection('mazes');
   let mazes = collectionData( query, 'id' ).pipe(startWith([]));;
   console.log({ mazes });
 
