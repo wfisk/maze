@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import { authState } from 'rxfire/auth';
+// import { authState } from 'rxfire/auth';
 
 import config from '../config/firebase.json';
 
