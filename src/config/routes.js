@@ -1,12 +1,12 @@
-import AboutRoute from '../routes/About.svelte';
-import ContactRoute from '../routes/Contact.svelte';
-import HomeRoute from '../routes/Home.svelte';
-import JobsRoute from '../routes/Jobs.svelte';
-import LoginRoute from '../routes/Login.svelte';
-import NotFoundRoute from '../routes/NotFound.svelte';
-import ReportIssueRoute from '../routes/ReportIssue.svelte';
-import RulesRoute from '../routes/Rules.svelte';
-import SignupRoute from '../routes/Signup.svelte';
+import AboutRoute from 'app/routes/About.svelte';
+import ContactRoute from 'app/routes/Contact.svelte';
+import HomeRoute from 'app/routes/Home.svelte';
+import JobsRoute from 'app/routes/Jobs.svelte';
+import LoginRoute from 'app/routes/Login.svelte';
+import NotFoundRoute from 'app/routes/NotFound.svelte';
+import ReportAnIssueRoute from 'app/routes/ReportAnIssue.svelte';
+import RulesRoute from 'app/routes/Rules.svelte';
+import SignupRoute from 'app/routes/Signup.svelte';
 
   
 export default {
@@ -16,7 +16,7 @@ export default {
   '/contact': ContactRoute,
   '/jobs': JobsRoute,
   '/login': LoginRoute,
-  '/report-an-issue': ReportIssueRoute,
+  '/report-an-issue': ReportAnIssueRoute,
   '/rules': RulesRoute,
   '/signup': SignupRoute,
 

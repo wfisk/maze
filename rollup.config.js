@@ -1,10 +1,13 @@
 import svelte from 'rollup-plugin-svelte';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-import json from 'rollup-plugin-json';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
-import postcss from 'rollup-plugin-postcss'
+
+import alias from 'rollup-plugin-alias';
+import json from 'rollup-plugin-json';
+import postcss from 'rollup-plugin-postcss';
+import autoPreprocess from 'svelte-preprocess';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -24,7 +27,12 @@ export default {
 			// a separate file — better for performance
 			css: css => {
 				css.write('public/bundle.css');
-			}
+      },
+      preprocess: autoPreprocess({
+
+
+      }),
+  
     }),
     postcss(),
 
@@ -36,7 +44,11 @@ export default {
 		resolve({
 			browser: true,
 			dedupe: importee => importee === 'svelte' || importee.startsWith('svelte/')
-		}),
+    }),
+    alias({
+      resolve: [ '.js', '.json', '.scss', '.svelte' ],
+      app: __dirname + '/src'
+    }),
     commonjs(),
     json(),
 
