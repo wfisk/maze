@@ -1,6 +1,7 @@
 <script>
   import { Button, Field, Input } from 'svelma'
-  import { auth } from '../services/firebase';
+
+  import { auth } from 'src/services/firebase';
 
   let displayName = '';
   let email = '';
@@ -44,7 +45,8 @@
     <Input type="password" bind:value={password} passwordReveal={true} />
   </Field>
     
-  <Button type="is-primary" on:click={onSubmit}>
+  <!-- Button type="is-primary" on:click={onSubmit} -->
+  <Button type="is-primary">
     Submit User
   </Button>
 

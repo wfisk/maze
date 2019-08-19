@@ -8,14 +8,13 @@
   import '@fortawesome/fontawesome-free/css/all.css'
   
   
-  import NavBar from './components/navbars/NavBar.svelte';
-  import routes from './config/routes.js';
-  import './services/firebase/'
-  import { auth, googleProvider } from './services/firebase';
-  import session from './stores/session.js';
+  import NavBar from 'src/components/NavBar.svelte';
+  import routes from 'src/config/routes.js';
+  import 'src/services/firebase'
+  import { auth, googleProvider } from 'src/services/firebase';
+  import session from 'src/stores/session.js';
   
   let signOut = null;
-
 
   const unsubscribe = authState(auth).subscribe(user => {
     session.set({user});
@@ -26,19 +25,19 @@
   });
 </script>
 
-<style>
-	h1 {
-		color: purple;
-	}
-
+<style lang="scss">
+  $base-color: #c6538c;
+  h1 {
+    color: $base-color;
+  }
 </style>
 
-<div class="container">
 
-  <NavBar/>
-
-  <Router {routes} />
-
-</div>
-
+<template>
+  <div class="container">
+    <NavBar/>
+    <h1 class="title">Very Mazed</h1>
+    <Router {routes} />
+  </div>
+</template>
 

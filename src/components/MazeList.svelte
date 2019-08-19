@@ -3,9 +3,9 @@
   import { collectionData } from 'rxfire/firestore';
   import { startWith } from 'rxjs/operators';
   
-  import { cfs } from '../../services/firebase';
-  import MazeDesigner from '../designers/MazeDesigner.svelte';
-  import MazePlayer from '../players/MazePlayer.svelte';
+  import { cfs } from 'src/services/firebase';
+  import MazeDesigner from 'src/components/MazeDesigner.svelte';
+  import MazePlayer from 'src/components/MazePlayer.svelte';
  
   
   // User ID passed from parent

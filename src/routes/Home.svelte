@@ -1,5 +1,5 @@
 <script>
-  import MazeList from '../components/lists/MazeList.svelte';
+  import MazeList from 'src/components/MazeList.svelte';
 </script>
 
 <h1>Mazes!!!</h1>

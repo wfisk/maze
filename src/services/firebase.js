@@ -3,7 +3,7 @@ import 'firebase/auth';
 import 'firebase/firestore';
 // import { authState } from 'rxfire/auth';
 
-import config from '../config/firebase.json';
+import config from 'src/config/firebase.json';
 
 firebase.initializeApp( config );
 

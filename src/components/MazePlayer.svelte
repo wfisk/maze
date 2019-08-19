@@ -6,10 +6,11 @@
 
   import { scaleLinear } from 'd3-scale';
   import { onMount } from 'svelte';
-  import { cfs } from '../../services/firebase';
   import { collectionData } from 'rxfire/firestore';
   import { startWith } from 'rxjs/operators';
 
+  import { cfs } from 'src/services/firebase';
+  
 
   
 

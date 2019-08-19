@@ -1,12 +1,12 @@
 <script>
   import { getContext } from 'svelte' 
   import { Button } from 'svelma' 
-  import UserProfile from '../components/profiles/UserProfile.svelte';
   import { auth, googleProvider } from '../services/firebase';
   import { authState } from 'rxfire/auth';
 
-  import '../services/firebase/'
-  import session from '../stores/session.js';
+  import UserProfile from 'src/components/UserProfile.svelte';
+  import 'src/services/firebase'
+  import session from 'src/stores/session';
 
   function signIn(){
     auth.signInWithPopup( googleProvider );

@@ -47,7 +47,7 @@ export default {
     }),
     alias({
       resolve: [ '.js', '.json', '.scss', '.svelte' ],
-      app: __dirname + '/src'
+      src: __dirname + '/src'
     }),
     commonjs(),
     json(),
