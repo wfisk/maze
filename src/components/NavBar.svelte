@@ -24,10 +24,15 @@
   }
 </script>
 
-<style>
+<style lang="scss">
+  /* @import "styles/global.scss"; */
+
   a.navbar-item {
     cursor: pointer;
     text-decoration: none;
+  }
+  .navbar-brand .title {
+    color: blue;
   }
 </style>
 

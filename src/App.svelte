@@ -27,11 +27,12 @@
   // see https://dev.to/buhrmi/svelte-component-transitions-5ie
 </script>
 
-
-<style global lang="sass" >
-  @import "styles/global.sass"; 
-  h1.title 
-    color: $base-color
+<!-- see https://github.com/sveltejs/sapper/issues/474 -->
+<style global lang="scss" >
+  @import "styles/global.scss"; 
+  h1.title {
+    color: $primary-09;
+  }  
 </style>
 
 <template>

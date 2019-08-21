@@ -3,12 +3,12 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
-import { sass } from 'svelte-preprocess-sass';
 
 import alias from 'rollup-plugin-alias';
 import json from 'rollup-plugin-json';
 import postcss from 'rollup-plugin-postcss';
 import autoPreprocess from 'svelte-preprocess';
+// import { scss, coffeescript, pug } from 'svelte-preprocess'
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -17,19 +17,13 @@ const production = !process.env.ROLLUP_WATCH;
 
 // see https://github.com/sveltejs/sapper/issues/474
 const preprocessOptions = {
-  sass: {
-    includePaths: [
-      'node_modules',
-      'src'
-    ]
-  },
   scss: {
     includePaths: [
       'node_modules',
       'src'
     ]
   },
-  style: sass()
+  // style: sass()
   // postcss: {
   //   plugins: [
   //     require('autoprefixer'),
