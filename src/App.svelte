@@ -5,7 +5,7 @@
   import { authState } from 'rxfire/auth';
   import Router from 'svelte-spa-router';
   // import 'bulma/css/bulma.css'
-  import '@fortawesome/fontawesome-free/css/all.css'
+  // import '@fortawesome/fontawesome-free/css/all.css'
   
   
   import NavBar from 'src/components/NavBar.svelte';
@@ -30,15 +30,11 @@
 <!-- see https://github.com/sveltejs/sapper/issues/474 -->
 <style global lang="scss" >
   @import "styles/global.scss"; 
-  h1.title {
-    color: $primary-09;
-  }  
 </style>
 
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <NavBar/>
-    <h1 class="title">Very Mazeddd</h1>
     <Router {routes} />
   </div>
 </template>

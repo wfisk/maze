@@ -4,6 +4,7 @@ import HomeRoute from 'src/routes/Home.svelte';
 import JobsRoute from 'src/routes/Jobs.svelte';
 import LoginRoute from 'src/routes/Login.svelte';
 import NotFoundRoute from 'src/routes/NotFound.svelte';
+import ProfileRoute from 'src/routes/Profile.svelte';
 import ReportAnIssueRoute from 'src/routes/ReportAnIssue.svelte';
 import RulesRoute from 'src/routes/Rules.svelte';
 import SignupRoute from 'src/routes/Signup.svelte';
@@ -16,6 +17,7 @@ export default {
   '/contact': ContactRoute,
   '/jobs': JobsRoute,
   '/login': LoginRoute,
+  '/profile': ProfileRoute,
   '/report-an-issue': ReportAnIssueRoute,
   '/rules': RulesRoute,
   '/signup': SignupRoute,

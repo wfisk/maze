@@ -1,7 +1,7 @@
 <script>
-  export let displayName;
-  export let photoURL;
-  export let uid;
+  export let user;
+
+  let { displayName, photoURL, uid } = user || {};
 </script>
 
 

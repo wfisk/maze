@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import { UserIcon, AtSignIcon } from 'svelte-feather-icons'
 
   let navBarBurger = null;
   let navBarMenu = null;
@@ -25,14 +26,18 @@
 </script>
 
 <style lang="scss">
-  /* @import "styles/global.scss"; */
+  @import "styles/global.scss"; 
+  .navbar {
+    max-height: 3.25rem;
+  }
 
   a.navbar-item {
     cursor: pointer;
     text-decoration: none;
   }
-  .navbar-brand .title {
-    color: blue;
+
+  .navbar-end .navbar-item {
+    width: 6rem;
   }
 </style>
 
@@ -71,8 +76,8 @@
             <a class="navbar-item" href="#/jobs">
               Jobs
             </a>
-            <a class="navbar-item" href="#/contact">
-              Contact
+            <a class="navbar-item" href="#/profile">
+              Profile
             </a>
             <hr class="navbar-divider">
             <a class="navbar-item" href="#/report-an-issue">
@@ -83,7 +88,7 @@
       </div>
 
       <div class="navbar-end"  >
-        <div class="navbar-item">
+        <!-- div class="navbar-item">
           <div class="buttons">
             <a class="button is-primary" href="#/signup">
               <strong>Sign up</strong>
@@ -92,7 +97,29 @@
               Log in now
             </a>
           </div>
-        </div>
+        </div -->
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <span class="navbar-link">
+            <UserIcon/>
+          </span>
+
+          <div class="navbar-dropdown is-right">
+            <a class="navbar-item" href="#/about">
+              About
+            </a>
+            <a class="navbar-item" href="#/jobs">
+              Jobs
+            </a>
+            <a class="navbar-item" href="#/profile">
+              Profile
+            </a>
+            <hr class="navbar-divider">
+            <a class="navbar-item" href="#/report-an-issue">
+              Report an issue
+            </a>
+          </div>
+        </div>        
       </div>
     </div>
   </nav>

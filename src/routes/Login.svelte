@@ -23,7 +23,7 @@
     <h1 class="title">Login</h1>
 
     {#if $session.user}
-      <UserProfile displayName={$session.user.displayName} photoURL={$session.user.photoURL} uid={$session.user.uid} />    
+      <UserProfile user={$session.user} />    
       <button on:click={signOut} type="is-danger is-outline" iconPack="fab" iconLeft="google" class="big" style="text-align:right;width:100%;">
         Sign out
       </button>
