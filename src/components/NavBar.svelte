@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
-  import { UserIcon, AtSignIcon } from 'svelte-feather-icons'
-
+  import { UserIcon, LogOutIcon } from 'svelte-feather-icons'
+  
   let navBarBurger = null;
   let navBarMenu = null;
 
@@ -36,8 +36,13 @@
     text-decoration: none;
   }
 
-  .navbar-end .navbar-item {
+  .navbar-end > .navbar-item {
     width: 6rem;
+  }
+
+  :global(.feather) {
+    min-width: 16px;
+    height: auto;
   }
 </style>
 
@@ -105,7 +110,7 @@
           </span>
 
           <div class="navbar-dropdown is-right">
-            <a class="navbar-item" href="#/about">
+            <a class="navbar-item" href="#!about">
               About
             </a>
             <a class="navbar-item" href="#/jobs">
@@ -116,6 +121,7 @@
             </a>
             <hr class="navbar-divider">
             <a class="navbar-item" href="#/report-an-issue">
+              <LogOutIcon/> 
               Report an issue
             </a>
           </div>

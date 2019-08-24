@@ -6,14 +6,15 @@
   import Router from 'svelte-spa-router';
   // import 'bulma/css/bulma.css'
   // import '@fortawesome/fontawesome-free/css/all.css'
-  
+ 
   
   import NavBar from 'src/components/NavBar.svelte';
-  import routes from 'src/config/routes.js';
   import 'src/services/firebase'
   import { auth, googleProvider } from 'src/services/firebase';
   import session from 'src/stores/session.js';
-  
+
+  import { currentRoute } from 'src/config/routes2';
+
   let signOut = null;
 
   const unsubscribe = authState(auth).subscribe(user => {
@@ -35,7 +36,9 @@
 <template>
   <div class="container-fluid">
     <NavBar/>
-    <Router {routes} />
+    <!-- Router {routes} / -->
+    <svelte:component this={$currentRoute.page} bind:params={$currentRoute.params} />
   </div>
 </template>
+
 
