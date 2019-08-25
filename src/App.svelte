@@ -4,8 +4,6 @@
   import { onMount, setContext } from 'svelte';
   import { authState } from 'rxfire/auth';
   import Router from 'svelte-spa-router';
-  // import 'bulma/css/bulma.css'
-  // import '@fortawesome/fontawesome-free/css/all.css'
  
   
   import NavBar from 'src/components/NavBar.svelte';
@@ -13,7 +11,7 @@
   import { auth, googleProvider } from 'src/services/firebase';
   import session from 'src/stores/session.js';
 
-  import { currentRoute } from 'src/config/routes2';
+  import { currentRoute } from 'src/config/routes';
 
   let signOut = null;
 

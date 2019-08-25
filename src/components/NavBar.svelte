@@ -1,11 +1,12 @@
 <script>
   import { onMount } from 'svelte';
-  import { UserIcon, LogOutIcon } from 'svelte-feather-icons'
+  import { LogInIcon, LogOutIcon, UserIcon } from 'svelte-feather-icons';
   
+  import { signOut } from 'src/services/firebase';
+  import currentUser from 'src/stores/current-user';
+
   let navBarBurger = null;
   let navBarMenu = null;
-
-
 
 
   /*----------------------------------------------------------------
@@ -31,6 +32,7 @@
     max-height: 3.25rem;
   }
 
+  /*
   a.navbar-item {
     cursor: pointer;
     text-decoration: none;
@@ -39,11 +41,13 @@
   .navbar-end > .navbar-item {
     width: 6rem;
   }
-
+*/
+  /*
   :global(.feather) {
     min-width: 16px;
     height: auto;
   }
+  */
 </style>
 
 <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
@@ -61,11 +65,11 @@
 
     <div class="navbar-menu" bind:this={navBarMenu} on:click={onNavBarMenuClick}>
       <div class="navbar-start">
-        <a class="navbar-item" href="#/">
+        <a class="navbar-item" href="/">
           Home
         </a>
 
-        <a class="navbar-item" href="#/rules">
+        <a class="navbar-item" href="/rules">
           Rules
         </a>
 
@@ -75,17 +79,17 @@
           </span>
 
           <div class="navbar-dropdown">
-            <a class="navbar-item" href="#/about">
+            <a class="navbar-item" href="/about">
               About
             </a>
-            <a class="navbar-item" href="#/jobs">
+            <a class="navbar-item" href="/jobs">
               Jobs
             </a>
-            <a class="navbar-item" href="#/profile">
+            <a class="navbar-item" href="/profile">
               Profile
             </a>
             <hr class="navbar-divider">
-            <a class="navbar-item" href="#/report-an-issue">
+            <a class="navbar-item" href="/report-an-issue">
               Report an issue
             </a>
           </div>
@@ -105,25 +109,32 @@
         </div -->
 
         <div class="navbar-item has-dropdown is-hoverable">
-          <span class="navbar-link">
+          <span class="navbar-link navbar-link-feather">
             <UserIcon/>
           </span>
 
           <div class="navbar-dropdown is-right">
-            <a class="navbar-item" href="#!about">
+            <a class="navbar-item" href="/about">
               About
             </a>
-            <a class="navbar-item" href="#/jobs">
+            <a class="navbar-item" href="/jobs">
               Jobs
             </a>
-            <a class="navbar-item" href="#/profile">
+            <a class="navbar-item" href="/profile">
               Profile
             </a>
             <hr class="navbar-divider">
-            <a class="navbar-item" href="#/report-an-issue">
-              <LogOutIcon/> 
-              Report an issue
-            </a>
+            {#if $currentUser }
+              <a class="navbar-item navbar-item-feather" on:click|preventDefault={signOut}>
+                <LogOutIcon/> 
+                Logout
+              </a>
+            {:else}  
+              <a class="navbar-item navbar-item-feather" href="#/login">
+                <LogInIcon/> 
+                Login
+              </a>
+            {/if}
           </div>
         </div>        
       </div>

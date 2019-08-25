@@ -60,3 +60,22 @@ button:active {
 button:focus {
 	border-color: #666;
 }
+
+
+.feather {
+  height: 1em;
+  /* margin-top: -4px; */
+  pointer-events: none;
+  vertical-align: middle;
+  width: 1em;
+}
+
+.navbar-item-feather > .feather {
+  text-align: center;
+  width: 2em;
+}  
+
+.navbar-link-feather > .feather {
+  text-align: center;
+  width: 1.25em;
+}  

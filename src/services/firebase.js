@@ -1,9 +1,10 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-// import { authState } from 'rxfire/auth';
+import { authState } from 'rxfire/auth';
 
 import config from 'src/config/firebase.json';
+import currentUser from 'src/stores/current-user.js';
 
 firebase.initializeApp( config );
 
@@ -15,8 +16,15 @@ export const cfs = firebase.firestore();
 export const auth = firebase.auth();
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
 export const signInWithPopup = () => auth.signInWithPopup( googleProvider );
+
+
+
 // see https://fireship.io/lessons/svelte-v3-overview-firebase/
-// export const unsubscribe = authState(auth).subscribe(u => user = u);
+export const unsubscribe = authState( auth ).subscribe( it => currentUser.set( it ) );
+
+export function signOut(){
+  auth.signOut();
+}
 
 // for debugging
 window.firebase = firebase;

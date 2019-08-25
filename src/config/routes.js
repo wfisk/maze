@@ -11,6 +11,8 @@ import ProfilePage from 'src/pages/Profile.svelte';
 import ReportAnIssuePage from 'src/pages/ReportAnIssue.svelte';
 import RulesPage from 'src/pages/Rules.svelte';
 import SignupPage from 'src/pages/Signup.svelte';
+
+import currentUser from 'src/stores/current-user';
 import session from 'src/stores/session';
 
 const currentRoute = writable({
@@ -18,11 +20,12 @@ const currentRoute = writable({
   params: ''
 });
 
-function authorizeThen() {
+function authorize() {
   return function( context, next ) {
-    if( !session.user ) {
-      page.redirect('/');
+    if( !currentUser ) {
+      page.redirect('/login');
     }
+    next();
   };
 }
   
@@ -33,18 +36,19 @@ function routeTo( page ) {
   };
 }
   
-page.base('/#')
+// page.base('/#!')
+// page('*', middleware() );
 page('/', routeTo( HomePage ) );
-page('/about', authorizeThen(), routeTo( AboutPage ) );
-page('/contact', authorizeThen(), routeTo( ContactPage ) );
-page('/jobs', authorizeThen(), routeTo( JobsPage ) );
+page('/about', authorize(), routeTo( AboutPage ) );
+page('/contact', authorize(), routeTo( ContactPage ) );
+page('/jobs', authorize(), routeTo( JobsPage ) );
 page('/login', routeTo( LoginPage ) );
-page('/profile', authorizeThen(), routeTo( ProfilePage ) );
-page('/report-an-issue', authorizeThen(), routeTo( ReportAnIssuePage ) );
-page('/rules', authorizeThen(), routeTo( RulesPage ) );
+page('/profile', authorize(), routeTo( ProfilePage ) );
+page('/report-an-issue', authorize(), routeTo( ReportAnIssuePage ) );
+page('/rules', authorize(), routeTo( RulesPage ) );
 page('/signup', routeTo( SignupPage ) );
 page('*', routeTo( NotFoundPage ) );
-page.start();
+page.start({ hashbang: true });
 
 
 
