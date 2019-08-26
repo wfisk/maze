@@ -9,7 +9,7 @@ import currentUser from 'src/stores/current-user.js';
 firebase.initializeApp( config );
 
 // Cloud Firestore cls
-export const cfs = firebase.firestore();
+export const firestore = firebase.firestore();
 
 // Firebase Auth fba
 // 

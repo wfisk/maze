@@ -9,7 +9,7 @@
   import { collectionData } from 'rxfire/firestore';
   import { startWith } from 'rxjs/operators';
 
-  import { cfs } from 'src/services/firebase';
+  import { firestore } from 'src/services/firebase';
 
 
   
@@ -51,13 +51,13 @@
 
   function addSpace( value ){
     spaces = [...spaces, value ];
-    cfs.collection('mazes').doc(id).update({ spaces });
+    firestore.collection('mazes').doc(id).update({ spaces });
   }
 
 
 	function removeSpace( value ){
     spaces = spaces.filter( it => it !== value );
-    cfs.collection('mazes').doc(id).update({ spaces });
+    firestore.collection('mazes').doc(id).update({ spaces });
   }  
 
 
@@ -166,7 +166,7 @@
   }
 
 
-  const query = cfs.collection('mazes').where('id', '==', id);
+  const query = firestore.collection('mazes').where('id', '==', id);
   const maze = collectionData(query, 'id').pipe(startWith([]));
 </script>
 

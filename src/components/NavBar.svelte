@@ -31,7 +31,9 @@
   .navbar {
     max-height: 3.25rem;
   }
-
+  .navbar-item-feather-fw {
+  margin-left: 1.5em;
+}  
   /*
   a.navbar-item {
     cursor: pointer;
@@ -114,13 +116,13 @@
           </span>
 
           <div class="navbar-dropdown is-right">
-            <a class="navbar-item" href="/about">
+            <a class="navbar-item navbar-item-feather-fw xxx" href="/about">
               About
             </a>
-            <a class="navbar-item" href="/jobs">
+            <a class="navbar-item navbar-item-feather-fw" href="/jobs">
               Jobs
             </a>
-            <a class="navbar-item" href="/profile">
+            <a class="navbar-item navbar-item-feather-fw" href="/profile">
               Profile
             </a>
             <hr class="navbar-divider">
@@ -130,7 +132,7 @@
                 Logout
               </a>
             {:else}  
-              <a class="navbar-item navbar-item-feather" href="#/login">
+              <a class="navbar-item navbar-item-feather" href="/login">
                 <LogInIcon/> 
                 Login
               </a>
