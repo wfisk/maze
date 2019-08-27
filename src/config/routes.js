@@ -31,7 +31,6 @@ function authorize() {
   
 function routeTo( page ) {
   return function( context ) {
-    console.log( context );
     currentRoute.set({ page: page, params: context.params });
   };
 }

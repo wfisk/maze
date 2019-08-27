@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { collectionData } from 'rxfire/firestore';
-  import { startWith } from 'rxjs/operators';
+  import { groupBy, map, startWith } from 'rxjs/operators';
   
   import { firestore } from 'src/services/firebase';
   import Maze from 'src/collections/Maze.js';
@@ -48,11 +48,12 @@
 
     return tempArray;
 }
-
 let mazes = Maze.findAll();
+// let mazeGroups = Maze.findAll().pipe( map( (_,i) => console.log({_,i })|| 1 ) );
+let mazeGroups = Maze.findAllInGroupsOfThree();
 
-$: groups = chunkArray( mazes );
-$: console.log( groups );
+$: console.log( { mazes } );
+$: console.log( { mazeGroups } );
 
 </script>
 
@@ -68,16 +69,14 @@ $: console.log( groups );
 
 
 
-<div class="tile is-ancestor">
-  <div class="tile is-4 is-vertical">
-    <div class="tile">
-      <!-- Top tile -->
-    </div>
-    <div class="tile">
-      <!-- Bottom tile -->
-    </div>
+{#each $mazeGroups as mazeGroup }
+  <div class="tile is-ancestor">
+    {#each mazeGroup as maze}
+      <div class="tile is-4">
+        <div class="tile">
+          <MazeDesigner {...maze}  />
+        </div>
+      </div>
+    {/each}
   </div>
-  <div class="tile">
-    <!-- This tile will take up the whole vertical space -->
-  </div>
-</div>
+{/each}

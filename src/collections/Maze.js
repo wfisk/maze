@@ -1,10 +1,10 @@
 import { collectionData } from 'rxfire/firestore';
-import { startWith } from 'rxjs/operators';
+import { bufferCount, map, startWith } from 'rxjs/operators';
 
+import Collection from 'src/collections/Collection';
 import { firestore } from 'src/services/firebase';
 
-
-export default class Maze {
+export default class Maze  extends Collection {
 
   constructor(){
 
@@ -25,7 +25,12 @@ export default class Maze {
 
   static findAll(){
     const query = firestore.collection( this.collectionName );
-    return collectionData( query, 'id' ).pipe(startWith([]));;
+    return collectionData( query, 'id' ).pipe(startWith([]));
+  }
+
+  static findAllInGroupsOfThree(){
+    const query = firestore.collection( this.collectionName );
+    return collectionData( query, 'id' ).pipe(startWith([]), map( (_,i) => console.log({_,i} ) ) );
   }
 
   static update( id, props ) {

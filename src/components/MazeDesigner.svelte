@@ -114,7 +114,6 @@
 
   // Events
   function onKeyDown(event) {
-    console.log( event.key );
 
 		switch (event.key) {
 			case "ArrowDown":
@@ -148,7 +147,6 @@
 			default:
 				// just eat it
     }
-    console.log( marker );
   }
 
   
@@ -156,7 +154,6 @@
     let row = parseInt( event.target.dataset.row, 10 );
     let column = parseInt( event.target.dataset.column, 10 );
     let index = addressToIndex( row, column );
-    console.log( { row, column } );
     if ( isSpaceAt( row, column ) ) {
       removeSpace( index );
     } 
