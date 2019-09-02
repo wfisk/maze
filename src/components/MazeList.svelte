@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { collectionData } from 'rxfire/firestore';
+  import { of } from 'rxjs';
   import { groupBy, map, startWith } from 'rxjs/operators';
   
   import { firestore } from 'src/services/firebase';
@@ -50,10 +51,23 @@
 }
 let mazes = Maze.findAll();
 // let mazeGroups = Maze.findAll().pipe( map( (_,i) => console.log({_,i })|| 1 ) );
-let mazeGroups = Maze.findAllInGroupsOfThree();
+// let mazeGroups = Maze.findAllInGroupsOfThree();
 
 $: console.log( { mazes } );
-$: console.log( { mazeGroups } );
+$: console.log( { $mazes } );
+// $: console.log( { subscrined: $mazeGroups });
+
+
+// $: console.log( { mazes } );
+
+let values = of(1,2,3,4,5,6);
+// $: items = values.pipe(
+//   map( (it,index) => { item, index } ),
+//   groupBy( it => it.index % 3 )
+// );  
+
+// $: console.log({ values });
+// $: console.log({ items });
 
 </script>
 
@@ -61,22 +75,25 @@ $: console.log( { mazeGroups } );
   input { display: block }
 </style>
 
-<ul>
-  {#each $mazes as maze}
-    <MazeDesigner {...maze}  />
-  {/each}
-</ul>
-
-
-
-{#each $mazeGroups as mazeGroup }
-  <div class="tile is-ancestor">
-    {#each mazeGroup as maze}
-      <div class="tile is-4">
-        <div class="tile">
-          <MazeDesigner {...maze}  />
+<div class="container">
+  <div class="columns is-multiline">
+    {#each $mazes as maze}
+      <div class="column is-one-third">
+        <div class="box">
+            <a href="/maze/{maze.id}"><h2>Maze</h2></a>
+            <MazeDesigner {...maze} />
         </div>
       </div>
-    {/each}
+    {/each}  
+    {#each $mazes as maze}
+      <div class="column is-one-third">
+        <div class="box">
+          <a href="/maze/{maze.id}"><h2>Maze</h2></a>
+          <MazeDesigner {...maze} />
+        </div>
+      </div>
+    {/each}  
   </div>
-{/each}
+</div>
+
+
