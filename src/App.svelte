@@ -3,8 +3,7 @@
 
   import { onMount, setContext } from 'svelte';
   import { authState } from 'rxfire/auth';
-  import Router from 'svelte-spa-router';
- 
+  
   
   import NavBar from 'src/components/NavBar.svelte';
   import 'src/services/firebase'

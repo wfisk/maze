@@ -127,10 +127,14 @@
             </a>
             <hr class="navbar-divider">
             {#if $currentUser }
-              <a class="navbar-item navbar-item-feather" on:click|preventDefault={signOut}>
+              <!-- a class="navbar-item navbar-item-feather" on:click|preventDefault={signOut}>
                 <LogOutIcon/> 
                 Logout
-              </a>
+              </a -->
+              <button class="button is-text navbar-item navbar-item-feather" on:click|preventDefault={signOut}>
+                <LogOutIcon/> 
+                Logout
+              </button>
             {:else}  
               <a class="navbar-item navbar-item-feather" href="/login">
                 <LogInIcon/> 

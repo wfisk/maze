@@ -65,17 +65,17 @@
     faye-websocket "0.11.3"
     tslib "1.10.0"
 
-"@firebase/firestore-types@1.4.4":
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/@firebase/firestore-types/-/firestore-types-1.4.4.tgz#3051a9c163b4b76ae04544629ff5e0777e452548"
-  integrity sha512-kFpmzkUKfzrXkcMad+TQlMs55dWNY0q1UxGICW82EneX3Yg6HN3Nx36kYfqH+SLBFUN1ZTikN07alMp0MA9p9g==
+"@firebase/firestore-types@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@firebase/firestore-types/-/firestore-types-1.5.0.tgz#f05700220f882773ca01e818bf10b1dc456ee5be"
+  integrity sha512-VhRHNbEbak+R2iK8e1ir2Lec7eaHMZpGTRy6LMtzATYthlkwNHF9tO8JU8l6d1/kYkI4+DWzX++i3HhTziHEWA==
 
-"@firebase/firestore@1.4.11":
-  version "1.4.11"
-  resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-1.4.11.tgz#e1aeb8d7ade776b4040d3ed19f0e3387fb16d2fa"
-  integrity sha512-wq8+g3MmrOnugbAutmBw7pRu0hvFIuc7Bk/X5aOruiY/LdEh9Bk7ET3zYbhu/ElwNHbMhS1U1Ll1Im/SB/7GsQ==
+"@firebase/firestore@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-1.5.0.tgz#01e7e8c669e358836ee2fd536898e3efb915d06a"
+  integrity sha512-apZIwUWfWnIqoYD5QjpDKmZ9H5ghmT5wFJKMQsmniU+uQYaMo4CtQYcmw+WdvwAUXfqRBAaP0l/UErr4aqcn9w==
   dependencies:
-    "@firebase/firestore-types" "1.4.4"
+    "@firebase/firestore-types" "1.5.0"
     "@firebase/logger" "0.1.23"
     "@firebase/util" "0.2.26"
     "@firebase/webchannel-wrapper" "0.2.25"
@@ -137,10 +137,10 @@
   resolved "https://registry.yarnpkg.com/@firebase/performance-types/-/performance-types-0.0.3.tgz#bdd37975cd5f12a55d3951f4942c3fa2661b354f"
   integrity sha512-RuC63nYJPJU65AsrNMc3fTRcRgHiyNcQLh9ufeKUT1mEsFgpxr167gMb+tpzNU4jsbvM6+c6nQAFdHpqcGkRlQ==
 
-"@firebase/performance@0.2.16":
-  version "0.2.16"
-  resolved "https://registry.yarnpkg.com/@firebase/performance/-/performance-0.2.16.tgz#19b9fec44a7dd2a7667238c8f08409c313220a7c"
-  integrity sha512-sirpSc5f9HxzxVC5x0C8yDbOHYtLNoT8RrpUX4Dm+Ronjwqk6j4md3DwzcJ7NM/9MKgbhJGdhCXkBF81OL+crw==
+"@firebase/performance@0.2.17":
+  version "0.2.17"
+  resolved "https://registry.yarnpkg.com/@firebase/performance/-/performance-0.2.17.tgz#b97d7986f76b40ce98d42576b19acd94bfa6fc6e"
+  integrity sha512-ybwTRxmpm4xiUCfApYFGZPGJIOWWxIc36Y0PxaaB0zWj4Ym1I1SDb0AGQ5mYOQj0VPlsGGsQtQ6E/gMl1NmaaA==
   dependencies:
     "@firebase/installations" "0.2.5"
     "@firebase/logger" "0.1.23"
@@ -1010,10 +1010,10 @@ d3-interpolate@1:
   dependencies:
     d3-color "1"
 
-d3-scale@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/d3-scale/-/d3-scale-3.0.1.tgz#f7b5e7046ad83b35399639455bf5218a3cc1d1bc"
-  integrity sha512-f+OsXyd0claf6ufjI52zBHyOnm6mmfFvYiGUU8UB2VumZpqCcxds5iWN1rcOACIHgw9MntTFLXmi4LBRmY4DwQ==
+d3-scale@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/d3-scale/-/d3-scale-3.1.0.tgz#e8af005101502dbf26c505d9f40cf88bcb75b2e1"
+  integrity sha512-3edyEBwbwQG400VbgaepQC9ZYFX3h92flLHIUa1+nvZp/mqCYdxNM9zGTjKtPcSAuBCyPePdMQOapsD0qNALrg==
   dependencies:
     d3-array "1.2.0 - 2"
     d3-format "1"
@@ -1107,6 +1107,11 @@ delegates@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delegates/-/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
   integrity sha1-hMbhWbgZBP3KWaDvRM2HDTElD5o=
+
+detect-indent@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/detect-indent/-/detect-indent-6.0.0.tgz#0abd0f549f69fc6659a254fe96786186b6f528fd"
+  integrity sha512-oSyFlqaTHCItVRGK5RmrmjB+CmaMOW7IaNA/kdxqhoa6d17j/5ce9O9eWXmV/KEdRwqpQA+Vqe8a8Bsybu4YnA==
 
 detect-libc@^1.0.2:
   version "1.0.3"
@@ -1326,20 +1331,20 @@ find-up@^1.0.0:
     path-exists "^2.0.0"
     pinkie-promise "^2.0.0"
 
-firebase@^6.3.5:
-  version "6.4.1"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-6.4.1.tgz#8e0c8286db197e51da8805ce74d441efb96dbc1e"
-  integrity sha512-eTRBUjXVp+No706W8jkAHUznmOhVfIp1/olQlLW/CuttTd7ywBRQq9JLWwC9cdX/tq4uofchYfUERKzVl5bi9Q==
+firebase@^6.5.0:
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/firebase/-/firebase-6.5.0.tgz#4298cd2e66ab9827fc5f3fe00791154188b89848"
+  integrity sha512-J65gV0LMf0Cikrn1MNqQRLgnFUZMGDntRqCzZAua4YfzS5QSXsFx39wEKbjGuoOyzMLnwg5lTBCxcf1iBEZ7yA==
   dependencies:
     "@firebase/app" "0.4.15"
     "@firebase/app-types" "0.4.3"
     "@firebase/auth" "0.11.8"
     "@firebase/database" "0.5.1"
-    "@firebase/firestore" "1.4.11"
+    "@firebase/firestore" "1.5.0"
     "@firebase/functions" "0.4.16"
     "@firebase/installations" "0.2.5"
     "@firebase/messaging" "0.4.9"
-    "@firebase/performance" "0.2.16"
+    "@firebase/performance" "0.2.17"
     "@firebase/polyfill" "0.3.20"
     "@firebase/storage" "0.3.10"
     "@firebase/util" "0.2.26"
@@ -3275,11 +3280,6 @@ regex-not@^1.0.0, regex-not@^1.0.2:
     extend-shallow "^3.0.2"
     safe-regex "^1.1.0"
 
-regexparam@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/regexparam/-/regexparam-1.3.0.tgz#2fe42c93e32a40eff6235d635e0ffa344b92965f"
-  integrity sha512-6IQpFBv6e5vz1QAqI+V4k8P2e/3gRrqfCJ9FI+O1FLQTO+Uz6RXZEZOPmTJ6hlGj7gkERzY5BRCv09whKP96/g==
-
 regexpu-core@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/regexpu-core/-/regexpu-core-1.0.0.tgz#86a763f58ee4d7c2f6b102e4764050de7ed90c6b"
@@ -3408,17 +3408,17 @@ rimraf@2, rimraf@^2.6.1:
   dependencies:
     glob "^7.1.3"
 
-rollup-plugin-alias@^1.5.2:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-alias/-/rollup-plugin-alias-1.5.2.tgz#f15a1cc8ee0debf74ab5c2bb68a944a66b568411"
-  integrity sha512-ODeZXhTxpD48sfcYLAFc1BGrsXKDj7o1CSNH3uYbdK3o0NxyMmaQPTNgW+ko+am92DLC8QSTe4kyxTuEkI5S5w==
+rollup-plugin-alias@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-alias/-/rollup-plugin-alias-2.0.0.tgz#eea77466a8a8a063007c8edb2e9d7a3d06cbb889"
+  integrity sha512-JVwxV9nwzjc0q7JmrV9jvZlJ8FykNd5r7RmYps8i/7v+vcmmVpeMvXrljhCboYErf4VZ2z9FEj+fP7eJlEGfug==
   dependencies:
     slash "^3.0.0"
 
-rollup-plugin-commonjs@^10.0.2:
-  version "10.0.2"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-commonjs/-/rollup-plugin-commonjs-10.0.2.tgz#61328f3a29945e2c35f2b2e824c18944fd88a54d"
-  integrity sha512-DxeR4QXTgTOFseYls1V7vgKbrSJmPYNdEMOs0OvH+7+89C3GiIonU9gFrE0u39Vv1KWm3wepq8KAvKugtoM2Zw==
+rollup-plugin-commonjs@^10.1.0:
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-commonjs/-/rollup-plugin-commonjs-10.1.0.tgz#417af3b54503878e084d127adf4d1caf8beb86fb"
+  integrity sha512-jlXbjZSQg8EIeAAvepNwhJj++qJWNJw1Cl0YnOqKtP5Djx+fFGkp3WRh+W0ASCaFG5w1jhmzDxgu3SJuVxPF4Q==
   dependencies:
     estree-walker "^0.6.1"
     is-reference "^1.1.2"
@@ -3498,24 +3498,24 @@ rollup-pluginutils@^2.0.1, rollup-pluginutils@^2.3.3, rollup-pluginutils@^2.5.0,
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@^1.19.4:
-  version "1.20.1"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.20.1.tgz#fc66f356c5afbd7c62434f1e7a53a1e7da5a2b32"
-  integrity sha512-8DV8eWLq84fbJFRqkjWg8BWX4NTTdHpx9bxjmTl/83z54o6Ygo1OgUDjJGFq/xe5i0kDspnbjzw2V+ZPXD/BrQ==
+rollup@^1.20.3:
+  version "1.20.3"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.20.3.tgz#6243f6c118ca05f56b2d9433112400cd834a1eb8"
+  integrity sha512-/OMCkY0c6E8tleeVm4vQVDz24CkVgvueK3r8zTYu2AQNpjrcaPwO9hE+pWj5LTFrvvkaxt4MYIp2zha4y0lRvg==
   dependencies:
     "@types/estree" "0.0.39"
     "@types/node" "^12.7.2"
     acorn "^7.0.0"
 
-rxfire@^3.6.10:
-  version "3.6.12"
-  resolved "https://registry.yarnpkg.com/rxfire/-/rxfire-3.6.12.tgz#4346231d203c37eabd557f59cb11fc48845a5e17"
-  integrity sha512-dJFYFJf86ffKknQ1UPRz+ECl81pyhZEpPjuo3FXIfvLKC26Pv/gypo9jdwgFROuspOGP3ApyfW6v3HCzR8ifHA==
+rxfire@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/rxfire/-/rxfire-3.7.1.tgz#8fa7b3516cf50e0ebe5336dd8df54de442b82a59"
+  integrity sha512-njoCZPxxngDY0nsN9yyIPswoRNwOXMKN9pqq4WgKEcQPq9Ya7CJjXELOLKTWtqhKpBR/886k4v1oO6AzVE+mvw==
 
-rxjs@^6.5.2:
-  version "6.5.2"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.2.tgz#2e35ce815cd46d84d02a209fb4e5921e051dbec7"
-  integrity sha512-HUb7j3kvb7p7eCUHE3FqjoDsC1xfZQ4AHFWfTKSpZ+sAhhz5X1WX0ZuUqWbzB2QhSLp3DoLUG+hMdEDKqWo2Zg==
+rxjs@^6.5.3:
+  version "6.5.3"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.3.tgz#510e26317f4db91a7eb1de77d9dd9ba0a4899a3a"
+  integrity sha512-wuYsAYYFdWTAnAaPoKGNhfpWwKZbJW+HgAJ+mImp+Epl7BG8oNWBCTyRM8gba9k4lk8BgWdoYm21Mo/RYhhbgA==
   dependencies:
     tslib "^1.9.0"
 
@@ -3926,35 +3926,28 @@ supports-color@^6.1.0:
   dependencies:
     has-flag "^3.0.0"
 
-svelma@0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/svelma/-/svelma-0.0.11.tgz#91881ce58d48c875eedde245400ea8acdf1b550c"
-  integrity sha512-DryAvachKp0fvxwX2DLg88UFSBa8YvspSjM5Ot6obwDvTaqUCe/+uFZ4YKTIBmqNOmoXj8poXp0M7MSIWXQSsQ==
+svelma@0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/svelma/-/svelma-0.0.12.tgz#da9c10448eb9fca1983aaf99eb66c2dbc3f983ac"
+  integrity sha512-UY+xMUkNPHuRk16mc6egyd3sCF8TsU35WK2XftJFHoPr2l8vOtofUn9BErmZN+k+3Wz1smXz5NLXpCaIlIwAzA==
 
 svelte-feather-icons@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/svelte-feather-icons/-/svelte-feather-icons-2.0.0.tgz#84565a09c2446007f038f53dd29b84e0be40ba3d"
   integrity sha512-IuVWz2JKnnZMdN70Pf5wB1d55aSSVbtsw0X1qwKuXWHH3rTXUxlgMsJL15FjOQeArYYm5WbqXa/q0IARNBPr8g==
 
-svelte-preprocess@^2.15.1:
-  version "2.15.1"
-  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-2.15.1.tgz#e73cb406ee2ec89aab5bdcc676db93754ce6908b"
-  integrity sha512-jsJrv/XPqIWS/sfo3FMSRl4+onED4kx/TmWI8u6tAdhXinGb/S2x+E2NfsCjI5N3v+KU6lMh4RjSxDJiz477Eg==
+svelte-preprocess@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-3.1.0.tgz#770ca72d423d79a8452b019b47625e2e93a93c04"
+  integrity sha512-hhJoUC+8cKQs5WirOQB2yauFLcHPdTUuMGGJthEuE8G+btruKaQk1tmyRonbcbBseQPI84HN7a9ZKIROG+HJ7Q==
   dependencies:
-    postcss-load-config "^2.0.0"
+    detect-indent "^6.0.0"
     strip-indent "^2.0.0"
 
-svelte-spa-router@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/svelte-spa-router/-/svelte-spa-router-1.2.0.tgz#7c4562ebf8f099a99e98c31ef0d1f2a8d5871b32"
-  integrity sha512-uEMINIfF1IhVLEJ5nfNvUlYfQx7Nf/y9eDimjaMQskfXQ2j7weZWDbyw5RHr5LM1vzL+G9PWneV1+2lrox/CzA==
-  dependencies:
-    regexparam "^1.3.0"
-
-svelte@^3.8.0:
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.9.1.tgz#f0dc0993d80e69da46f7b21d858895c37c2fd419"
-  integrity sha512-oy6FjffuCzPueBnzs8SxkV5VaOS+VX/eUywgE9LCA+skKdXt7wFlpKH3DNi1Uy+K23sb9bzlWxn0AaDQOnEUEw==
+svelte@^3.9.2:
+  version "3.9.2"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.9.2.tgz#9761edf188b5b0a246d4455e2512e341962f36d1"
+  integrity sha512-Y52Fss50W9PnCmv+R6H3/24ogmWy5Mm+aoPCwiM8j7kuiZqEKcv/cEcB7RmMsE+W0J3fPF9/DXB7yfbl/6O4zA==
 
 svgo@^1.0.0:
   version "1.3.0"

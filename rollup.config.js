@@ -8,7 +8,6 @@ import alias from 'rollup-plugin-alias';
 import json from 'rollup-plugin-json';
 import postcss from 'rollup-plugin-postcss';
 import autoPreprocess from 'svelte-preprocess';
-// import { scss, coffeescript, pug } from 'svelte-preprocess'
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -23,12 +22,6 @@ const preprocessOptions = {
       'src'
     ]
   },
-  // style: sass()
-  // postcss: {
-  //   plugins: [
-  //     require('autoprefixer'),
-  //   ]
-  // }
 }
 
 export default {
@@ -64,7 +57,9 @@ export default {
     }),
     alias({
       resolve: [ '.js', '.json', '.scss', '.svelte' ],
-      src: __dirname + '/src'
+      entries:[
+        { find: /^src/, replacement: __dirname + '/src' } 
+      ] 
     }),
     commonjs(),
     json(),
@@ -79,5 +74,12 @@ export default {
 	],
 	watch: {
 		clearScreen: false
-	}
+  },
+
+  // see https://github.com/d3/d3-selection/issues/168
+  onwarn: function (warning, warn) {
+    if (warning.code === 'CIRCULAR_DEPENDENCY') return;
+    warn(warning);
+  }
+  
 };

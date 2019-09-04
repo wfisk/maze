@@ -8,7 +8,6 @@ export default class Maze  extends Collection {
 
   constructor(){
     super();
-
   }
 
   static add( props ) {
@@ -20,19 +19,19 @@ export default class Maze  extends Collection {
   }
 
   static async find( id ){
-    let docRef = firestore.collection( this.collectionName ).doc( id );
+    let docRef = this.collectionRef.doc( id );
     let doc = await docRef.get();
     return { id, ...doc.data() };
   }
 
   static findAll(){
-    const query = firestore.collection( this.collectionName );
-    return collectionData( query, 'id' ).pipe( startWith( [] ) );
+    const collectionRef = firestore.collection( this.collectionName );
+    return collectionData( collectionRef, 'id' ).pipe( startWith( [] ) );
   }
 
   static findAllInGroupsOfThree(){
-    const query = firestore.collection( this.collectionName );
-    return collectionData( query, 'id' ).pipe( 
+    const collectionRef = firestore.collection( this.collectionName );
+    return collectionData( collectionRef, 'id' ).pipe( 
       startWith( [] ),
       map( (it,index) => {
         it.index = index;
@@ -49,6 +48,7 @@ export default class Maze  extends Collection {
 }
 
 Maze.collectionName = 'mazes';
+Maze.collectionRef = firestore.collection( Maze.collectionName );
 
 
 

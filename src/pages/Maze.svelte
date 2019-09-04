@@ -19,7 +19,7 @@
 
 
 {:catch}
-
+error
 
 {/await}
 
