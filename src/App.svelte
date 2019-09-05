@@ -21,11 +21,8 @@
   onMount( function(){
     signOut = auth.onAuthStateChanged;
   });
-
-  // see https://dev.to/buhrmi/svelte-component-transitions-5ie
 </script>
 
-<!-- see https://github.com/sveltejs/sapper/issues/474 -->
 <style global lang="scss" >
   @import "styles/global.scss"; 
 </style>
@@ -33,7 +30,7 @@
 <template>
   <div class="container-fluid">
     <NavBar/>
-    <!-- Router {routes} / -->
+    
     <svelte:component this={$currentRoute.page} bind:params={$currentRoute.params} />
   </div>
 </template>

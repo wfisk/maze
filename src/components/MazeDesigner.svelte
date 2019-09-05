@@ -5,6 +5,7 @@
   import { startWith } from 'rxjs/operators';
 
   import { firestore } from 'src/services/firebase';
+  import {send, receive} from 'src/transitions/crossfade.js';
 
   export let id;
   export let rowCount = 10;
@@ -218,6 +219,8 @@
   class="board" 
   bind:clientWidth={clientWidth} 
   bind:clientHeight={clientHeight}
+  in:receive="{{key: 'maze_' + id }}"
+  out:send="{{key: 'maze_' + id }}" 
   >
   
 	<svg viewBox="0 0 {width} {height}" width="100%" preserveAspectRatio="xMidYMid meet">

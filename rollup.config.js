@@ -59,7 +59,7 @@ export default {
       resolve: [ '.js', '.json', '.scss', '.svelte' ],
       entries:[
         { find: /^src/, replacement: __dirname + '/src' } 
-      ] 
+      ],
     }),
     commonjs(),
     json(),
