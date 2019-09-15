@@ -32,6 +32,7 @@ function authorize() {
   
 function routeTo( page ) {
   return function( context ) {
+    console.log( context );
     currentRoute.set({ page: page, params: context.params });
   };
 }
@@ -46,7 +47,7 @@ page('/login', routeTo( LoginPage ) );
 page('/maze/:id', routeTo( MazePage ) );
 page('/profile', authorize(), routeTo( ProfilePage ) );
 page('/report-an-issue', authorize(), routeTo( ReportAnIssuePage ) );
-page('/rules', authorize(), routeTo( RulesPage ) );
+page('/rules/:topic', authorize(), routeTo( RulesPage ) );
 page('/signup', routeTo( SignupPage ) );
 page('*', routeTo( NotFoundPage ) );
 page.start({ hashbang: true });

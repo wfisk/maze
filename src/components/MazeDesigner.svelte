@@ -5,7 +5,7 @@
   import { startWith } from 'rxjs/operators';
 
   import { firestore } from 'src/services/firebase';
-  import {send, receive} from 'src/transitions/crossfade.js';
+  import { send, receive } from 'src/transitions/crossfade.js';
 
   export let id;
   export let rowCount = 10;

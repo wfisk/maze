@@ -71,7 +71,7 @@
           Home
         </a>
 
-        <a class="navbar-item" href="/rules">
+        <a class="navbar-item" href="/rules/third">
           Rules
         </a>
 
