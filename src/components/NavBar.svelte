@@ -50,6 +50,9 @@
     height: auto;
   }
   */
+  div {
+    display: flex;
+  }
 </style>
 
 <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
