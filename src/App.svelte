@@ -12,8 +12,10 @@
   import 'src/services/firebase'
   import { auth, googleProvider } from 'src/services/firebase';
   import session from 'src/stores/session.js';
+  // import { Router, Route } from 'svero';
+  import { Router, Route } from 'svero';
 
-  import { currentRoute } from 'src/config/routes';
+  // import { currentRoute } from 'src/config/routes';
 
   import AboutPage from 'src/pages/About.svelte';
   import ContactPage from 'src/pages/Contact.svelte';
@@ -46,9 +48,9 @@
   <div class="container-fluid">
     <NavBar/>
     
-    <svelte:component this={$currentRoute.page} bind:params={$currentRoute.params} />
+    <!-- svelte:component this={$currentRoute.page} bind:params={$currentRoute.params} / -->
 
-    <Router>
+    <!-- Router>
       <Route path="*" component={NotFoundPage} />
       <Route path="/" component={HomePage} />
       <Route path="/about" component={AboutPage} />
@@ -60,7 +62,22 @@
       <Route path="/report-an-issue" component={ReportAnIssuePage} />
       <Route path="/rules" component={RulesPage} />
       <Route path="/signup" component={SignupPage} />
+    </Router -->
+
+    <Router>
+      <Route path="*" component={NotFoundPage} />
+      <Route path="/home" component={HomePage} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/contact" component={ContactPage} />
+      <Route path="/jobs" component={JobsPage} />
+      <Route path="/login" component={LoginPage} />
+      <Route path="/maze/:id" component={MazePage} />
+      <Route path="/profile" component={ProfilePage} />
+      <Route path="/report-an-issue" component={ReportAnIssuePage} />
+      <Route path="/rules" component={RulesPage} />
+      <Route path="/signup" component={SignupPage} />
     </Router>
+
 
   </div>
 </template>

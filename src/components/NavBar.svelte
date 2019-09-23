@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { LogInIcon, LogOutIcon, UserIcon } from 'svelte-feather-icons';
+  import { Link } from 'svero';
   
   import { signOut } from 'src/services/firebase';
   import currentUser from 'src/stores/current-user';
@@ -57,9 +58,12 @@
 
 <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">
+      <!-- a class="navbar-item" href="/">
         <h2 class="title">Very Mazed</h2>
-      </a>
+      </a -->
+      <Link class="navbar-item" href="/home">
+        <h2 class="title">Very Mazed</h2>
+      </Link>
 
       <button role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" bind:this={navBarBurger} on:click={onNavBarBurgerClick}>
         <span aria-hidden="true"></span>
@@ -70,13 +74,15 @@
 
     <div class="navbar-menu" bind:this={navBarMenu} on:click={onNavBarMenuClick}>
       <div class="navbar-start">
-        <a class="navbar-item" href="/">
+        <!-- a class="navbar-item" href="/">
           Home
-        </a>
+        </a -->
+        <Link class="navbar-item" href="/home">Home</Link>  
 
-        <a class="navbar-item" href="/rules/third">
+        <!-- a class="navbar-item" href="/rules/third">
           Rules
-        </a>
+        </a -->
+        <Link class="navbar-item" href="/rules/third">Rules</Link>  
 
         <div class="navbar-item has-dropdown is-hoverable">
           <span class="navbar-link">
@@ -84,19 +90,23 @@
           </span>
 
           <div class="navbar-dropdown">
-            <a class="navbar-item" href="/about">
+            <!-- a class="navbar-item" href="/about">
               About
-            </a>
-            <a class="navbar-item" href="/jobs">
+            </a -->
+            <Link class="navbar-item" href="/about">About</Link>  
+            <!-- a class="navbar-item" href="/jobs">
               Jobs
-            </a>
-            <a class="navbar-item" href="/profile">
+            </a -->
+            <Link class="navbar-item" href="/jobs">Jobs</Link>  
+            <!-- a class="navbar-item" href="/profile">
               Profile
-            </a>
+            </a -->
+            <Link class="navbar-item" href="/profile">Profile</Link>  
             <hr class="navbar-divider">
-            <a class="navbar-item" href="/report-an-issue">
+            <!-- a class="navbar-item" href="/report-an-issue">
               Report an issue
-            </a>
+            </a -->
+            <Link class="navbar-item" href="/report-an-issue">Report an issue</Link>  
           </div>
         </div>
       </div>
@@ -119,15 +129,24 @@
           </span>
 
           <div class="navbar-dropdown is-right">
-            <a class="navbar-item navbar-item-feather-fw xxx" href="/about">
+            <!-- a class="navbar-item navbar-item-feather-fw xxx" href="/about">
               About
-            </a>
-            <a class="navbar-item navbar-item-feather-fw" href="/jobs">
+            </a -->
+            <Link class="navbar-item navbar-item-feather-fw xxx" href="/about">
+              About
+            </Link>
+            <!-- a class="navbar-item navbar-item-feather-fw" href="/jobs">
               Jobs
-            </a>
-            <a class="navbar-item navbar-item-feather-fw" href="/profile">
-              Profile
-            </a>
+            </a -->
+            <Link class="navbar-item navbar-item-feather-fw" href="/jobs">
+              Jobs
+            </Link>
+            <!-- a class="navbar-item navbar-item-feather-fw" href="/jobs">
+              Jobs
+            </a -->
+            <Link class="navbar-item navbar-item-feather-fw" href="/jobs">
+              Jobs
+            </Link>
             <hr class="navbar-divider">
             {#if $currentUser }
               <!-- a class="navbar-item navbar-item-feather" on:click|preventDefault={signOut}>

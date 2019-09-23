@@ -27,9 +27,7 @@
     "svelma": "0.0.12",
     "svelte": "^3.9.2",
     "svelte-feather-icons": "^2.0.0",
-    "svelte-preprocess": "^3.1.0"
-  },
-  "dependencies": {
+    "svelte-preprocess": "^3.1.0",
     "svero": "^1.0.0"
   },
   "scripts": {
