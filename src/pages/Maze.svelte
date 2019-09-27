@@ -3,20 +3,9 @@
   import Maze from 'src/collections/Maze';
   import {send, receive} from 'src/transitions/crossfade.js';
 
-
-  export let router = {};
-
-  $: params = router.params
-  $: console.log({ router });
-
-  // Those contains useful information about current route status
-  // router.path; // /test
-  // router.route; // Route Object
-  // router.params; // /about/bill/123/kansas { who: 'bill', where: 'kansas' }
-
-
+  export let params = {};
+  $: console.log({ params });
   $: maze = Maze.find( params.id );
-
   $: console.log( { maze } )
 </script>
 

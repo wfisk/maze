@@ -1,28 +1,57 @@
-import AboutRoute from 'src/routes/About.svelte';
-import ContactRoute from 'src/routes/Contact.svelte';
-import HomeRoute from 'src/routes/Home.svelte';
-import JobsRoute from 'src/routes/Jobs.svelte';
-import LoginRoute from 'src/routes/Login.svelte';
-import NotFoundRoute from 'src/routes/NotFound.svelte';
-import ProfileRoute from 'src/routes/Profile.svelte';
-import ReportAnIssueRoute from 'src/routes/ReportAnIssue.svelte';
-import RulesRoute from 'src/routes/Rules.svelte';
-import SignupRoute from 'src/routes/Signup.svelte';
+import { writable } from 'svelte/store';
+import page from 'page';
 
-  
-export default {
-  // Exact path
-  '/': HomeRoute,
-  '/about': AboutRoute,
-  '/contact': ContactRoute,
-  '/jobs': JobsRoute,
-  '/login': LoginRoute,
-  '/profile': ProfileRoute,
-  '/report-an-issue': ReportAnIssueRoute,
-  '/rules': RulesRoute,
-  '/signup': SignupRoute,
+import AboutPage from 'src/pages/About.svelte';
+import ContactPage from 'src/pages/Contact.svelte';
+import HomePage from 'src/pages/Home.svelte';
+import JobsPage from 'src/pages/Jobs.svelte';
+import LoginPage from 'src/pages/Login.svelte';
+import MazePage from 'src/pages/Maze.svelte';
+import NotFoundPage from 'src/pages/NotFound.svelte';
+import ProfilePage from 'src/pages/Profile.svelte';
+import ReportAnIssuePage from 'src/pages/ReportAnIssue.svelte';
+import RulesPage from 'src/pages/Rules.svelte';
+import SignupPage from 'src/pages/Signup.svelte';
 
-    // Catch-all
-  // This is optional, but if present it must be the last
-  '*': NotFoundRoute,
+import currentUser from 'src/stores/current-user';
+import session from 'src/stores/session';
+
+const currentRoute = writable({
+  page: null,
+  params: ''
+});
+
+function authorize() {
+  return function( context, next ) {
+    if( !currentUser ) {
+      page.redirect('/login');
+    }
+    next();
   };
+}
+  
+function routeTo( page ) {
+  return function( context ) {
+    console.log( context );
+    currentRoute.set({ page: page, params: context.params });
+  };
+}
+  
+// page.base('/#!')
+// page('*', middleware() );
+page('/', routeTo( HomePage ) );
+page('/about', authorize(), routeTo( AboutPage ) );
+page('/contact', authorize(), routeTo( ContactPage ) );
+page('/jobs', authorize(), routeTo( JobsPage ) );
+page('/login', routeTo( LoginPage ) );
+page('/maze/:id', routeTo( MazePage ) );
+page('/profile', authorize(), routeTo( ProfilePage ) );
+page('/report-an-issue', authorize(), routeTo( ReportAnIssuePage ) );
+page('/rules/:topic', authorize(), routeTo( RulesPage ) );
+page('/signup', routeTo( SignupPage ) );
+page('*', routeTo( NotFoundPage ) );
+page.start({ hashbang: true });
+
+
+
+export { currentRoute };

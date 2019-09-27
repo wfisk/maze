@@ -41,15 +41,7 @@ let mazes = Maze.findAll();
     {#each $mazes as maze}
       <div class="column is-one-third">
         <div class="box">
-          <a href="/maze/{maze.id}"><h2>Maze</h2></a>
-          <MazeDesigner {...maze} />
-        </div>
-      </div>
-    {/each}  
-    {#each $mazes as maze}
-      <div class="column is-one-third">
-        <div class="box">
-          <a href="/maze/{maze.id}"><h2>Maze</h2></a>
+          <a href="#/maze/{maze.id}"><h2>Mazeee</h2></a>
           <MazeDesigner {...maze} />
         </div>
       </div>

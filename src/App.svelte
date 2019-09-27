@@ -12,10 +12,7 @@
   import 'src/services/firebase'
   import { auth, googleProvider } from 'src/services/firebase';
   import session from 'src/stores/session.js';
-  // import { Router, Route } from 'svero';
-  import { Router, Route } from 'svero';
-
-  // import { currentRoute } from 'src/config/routes';
+  import Router from 'svelte-spa-router'
 
   import AboutPage from 'src/pages/About.svelte';
   import ContactPage from 'src/pages/Contact.svelte';
@@ -35,6 +32,22 @@
     session.set({user});
   }); 
 
+  const routes = {
+    // Exact path
+    '/':                  HomePage,
+    "/about":             AboutPage,
+    "/contact":           ContactPage,
+    "/jobs":              JobsPage,
+    "/login":             LoginPage,
+    "/maze/:id":          MazePage,
+    "/profile":           ProfilePage,
+    "/report-an-issue":   ReportAnIssuePage,
+    "/rules":             RulesPage,
+    "/signup":            SignupPage,
+    '*':                  NotFoundPage,
+  };
+
+
   onMount( function(){
     signOut = auth.onAuthStateChanged;
   });
@@ -47,38 +60,7 @@
 <template>
   <div class="container-fluid">
     <NavBar/>
-    
-    <!-- svelte:component this={$currentRoute.page} bind:params={$currentRoute.params} / -->
-
-    <!-- Router>
-      <Route path="*" component={NotFoundPage} />
-      <Route path="/" component={HomePage} />
-      <Route path="/about" component={AboutPage} />
-      <Route path="/contact" component={ContactPage} />
-      <Route path="/jobs" component={JobsPage} />
-      <Route path="/login" component={LoginPage} />
-      <Route path="/maze/:id" component={MazePage} />
-      <Route path="/profile" component={ProfilePage} />
-      <Route path="/report-an-issue" component={ReportAnIssuePage} />
-      <Route path="/rules" component={RulesPage} />
-      <Route path="/signup" component={SignupPage} />
-    </Router -->
-
-    <Router>
-      <Route path="*" component={NotFoundPage} />
-      <Route path="/home" component={HomePage} />
-      <Route path="/about" component={AboutPage} />
-      <Route path="/contact" component={ContactPage} />
-      <Route path="/jobs" component={JobsPage} />
-      <Route path="/login" component={LoginPage} />
-      <Route path="/maze/:id" component={MazePage} />
-      <Route path="/profile" component={ProfilePage} />
-      <Route path="/report-an-issue" component={ReportAnIssuePage} />
-      <Route path="/rules" component={RulesPage} />
-      <Route path="/signup" component={SignupPage} />
-    </Router>
-
-
+    <Router {routes} />
   </div>
 </template>
 
