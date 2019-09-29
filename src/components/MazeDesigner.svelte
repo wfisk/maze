@@ -6,13 +6,16 @@
 
   import { firestore } from 'src/services/firebase';
   import { send, receive } from 'src/transitions/crossfade.js';
+  import Maze from 'src/collections/Maze';
 
   export let id;
   export let rowCount = 10;
   export let columnCount = 10;
   export let spaces = [];
-  export let userId = null;
+  export let ownerId = null;
+  
 
+  // $: maze = Maze.find( id );
 
 
   
@@ -166,8 +169,8 @@
   }
 
 
-  const query = firestore.collection('mazes').where('id', '==', id);
-  const maze = collectionData(query, 'id').pipe(startWith([]));
+  // const query = firestore.collection('mazes').where('id', '==', id);
+  // const maze = collectionData(query, 'id').pipe(startWith([]));
 </script>
 
 <style>
@@ -181,8 +184,8 @@
 	}
 
 	.board {
-		width: 100%;
-		max-width: 500px;
+		/* width: 100%; */
+		/* max-width: 500px; */
 		margin: 0 auto;
 	}
 

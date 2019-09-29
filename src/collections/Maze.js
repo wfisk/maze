@@ -1,10 +1,10 @@
-import { collectionData } from 'rxfire/firestore';
+import { collectionData, docData } from 'rxfire/firestore';
 import { bufferCount, groupBy, map, startWith } from 'rxjs/operators';
 
 import Collection from 'src/collections/Collection';
 import { firestore } from 'src/services/firebase';
 
-export default class Maze  extends Collection {
+export default class Maze extends Collection {
 
   constructor(){
     super();
@@ -18,10 +18,13 @@ export default class Maze  extends Collection {
     firestore.collection( this.collectionName ).doc( id ).delete();
   }
 
-  static async find( id ){
+  static find( id ){
     let docRef = this.collectionRef.doc( id );
-    let doc = await docRef.get();
-    return { id, ...doc.data() };
+
+    return docData( docRef ).pipe( startWith( null ) );
+    
+    // let doc = await docRef.get();
+    // return { id, ...doc.data() };
   }
 
   static findAll(){

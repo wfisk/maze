@@ -1,12 +1,14 @@
 <script>
   import MazeDesigner from 'src/components/MazeDesigner.svelte';
   import Maze from 'src/collections/Maze';
-  import {send, receive} from 'src/transitions/crossfade.js';
+  import { send, receive } from 'src/transitions/crossfade.js';
 
   export let params = {};
-  $: console.log({ params });
-  $: maze = Maze.find( params.id );
-  $: console.log( { maze } )
+
+  let maze;
+  let mazeStore = Maze.find( params.id );
+
+  mazeStore.subscribe( it => maze = it );
 </script>
 
 <style global lang="scss" >
@@ -21,16 +23,14 @@
 
 <h1 class="title">Maze</h1>
 
-{#await maze}
-  loading...
-{:then maze}
+{#if maze}
   <div class="container container-maze">
-    <MazeDesigner {...maze} />
+    <MazeDesigner id={params.id} {...maze}  />
   </div>
 
-{:catch}
-error
+{:else}
+Loading...
 
-{/await}
+{/if}
 
 
