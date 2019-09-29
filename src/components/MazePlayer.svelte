@@ -1,15 +1,18 @@
 <script>
-  export let id;
-  export let rowCount = 10;
-  export let columnCount = 10;
-  export let spaces = [];
-
   import { scaleLinear } from 'd3-scale';
   import { onMount } from 'svelte';
   import { collectionData } from 'rxfire/firestore';
   import { startWith } from 'rxjs/operators';
 
   import { firestore } from 'src/services/firebase';
+
+
+  export let id;
+  export let rowCount = 10;
+  export let columnCount = 10;
+  export let spaces = [];
+  export let userId = null;  
+
   
 
   

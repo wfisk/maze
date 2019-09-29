@@ -9,9 +9,13 @@
   $: console.log( { maze } )
 </script>
 
-<style>
-  .container {
+<style global lang="scss" >
+  .container-maze {
+    display: flex;
+    justify-content: center;
+    max-height: 80vh;
     position: absolute;
+    width: 100%;
   }
 </style>
 
@@ -20,9 +24,9 @@
 {#await maze}
   loading...
 {:then maze}
-<div class="container">
+  <div class="container container-maze">
     <MazeDesigner {...maze} />
-</div>
+  </div>
 
 {:catch}
 error
