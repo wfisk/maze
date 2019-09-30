@@ -34,9 +34,10 @@
 {#if active}
   <div class="modal {size} is-active" bind:this={modal}>
     <div class="modal-background" on:click={close}></div>
-    <div class="modal-content" transition:_animation|local={animProps}> <!-- transition:_animation|local -->
+    <div class="modal-content" transition:_animation|local={animProps}> 
       <slot />
-      <div class="sub-component"></div>
+      <div class="sub-component">
+      </div>
     </div>
     {#if showClose}
       <button class="modal-close is-large" aria-label="close" on:click={close}></button>

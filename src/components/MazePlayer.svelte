@@ -11,7 +11,7 @@
   export let rowCount = 10;
   export let columnCount = 10;
   export let spaces = [];
-  export let userId = null;  
+  export let ownerId = null;  
 
   
 

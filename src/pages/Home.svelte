@@ -5,12 +5,27 @@
   import { onDestroy } from 'svelte';
   import { PlusCircleIcon } from 'svelte-feather-icons';
   import MazeList from 'src/components/MazeList.svelte';
-  import Modal from 'src/components/Modal/index';
+  import MazeModal from 'src/components/modals/MazeModal';
+  import Maze from 'src/collections/Maze';
+  import session from 'src/stores/session';
 
   let modalActive = false;
+  let name="";
+  let rowCount = 1;
+  let columnCount = 1;
+
+  function onMazeModalClose(){
+
+  }
+
+  function onMazeModalSubmit(){
+    console.log({ name, rowCount, columnCount, spaces:[], ownerId:$session.user  });
+    Maze.add({ name, rowCount, columnCount, spaces:[], ownerId:$session.user.uid });
+  }
+
 
   function onNewMazeClick( event ){
-    modalActive = !modalActive;
+    modalActive = true;
   }
 
   onDestroy( function(){
@@ -29,11 +44,13 @@
 
 <MazeList />
 
-<!-- Modal bind:active={modalActive}>
 
-  <p class="image is-4by3">
-    <img alt="Test image" src="https://via.placeholder.com/1280x920"/>
-  </p>
-
-
-</Modal -->
+<MazeModal 
+  bind:active={modalActive} 
+  bind:name
+  bind:rowCount
+  bind:columnCount 
+  on:close={onMazeModalClose} 
+  on:submit={onMazeModalSubmit}
+>
+</MazeModal>

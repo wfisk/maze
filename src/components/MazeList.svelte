@@ -30,34 +30,13 @@ let mazes = Maze.findAll();
 <style>
   input { display: block }
 
-  .box {
-    border: 1px solid purple;
-    position: absolute;
-  }
 
   .column {
-    border: 1px solid red;
+
   }
 </style>
 
 <div class="container">
-    <div class="columns">
-      <div class="card__wrapper column is-one-third">
-              <div class="card">
-                  First Card
-              </div>
-          </div>      
-          <div class="card__wrapper column is-one-third">
-              <div class="card">
-              Second column
-            </div>
-      </div>
-      <div class="card__wrapper column is-one-third">
-          <div class="card">
-          Third column
-        </div>
-      </div>
-    </div>
   <div class="columns is-multiline">
     {#each $mazes as maze}
       <div class="column is-one-third">
