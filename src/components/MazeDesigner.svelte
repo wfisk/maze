@@ -6,6 +6,7 @@
 
   import { firestore } from 'src/services/firebase';
   import { send, receive } from 'src/transitions/crossfade.js';
+  import { zoomFade } from 'src/transitions/transitions.js';
   import Maze from 'src/collections/Maze';
 
   export let id;
@@ -225,9 +226,10 @@
   bind:clientHeight={clientHeight}
   in:receive="{{key: 'maze_' + id }}"
   out:send="{{key: 'maze_' + id }}" 
-  >
+>
+{'maze_' + id}
   
-	<svg viewBox="0 0 {width} {height}" width="100%" preserveAspectRatio="xMidYMid meet">
+<svg viewBox="0 0 {width} {height}" width="100%" preserveAspectRatio="xMidYMid meet">
 		<g class='squares'>
       {#each [...Array(mazeGrid.rowCount).keys()] as row}
         {#each [...Array(mazeGrid.columnCount).keys()] as column}
