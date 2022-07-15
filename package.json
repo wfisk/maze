@@ -24,7 +24,7 @@
     "rxjs": "^6.5.3",
     "sirv-cli": "^0.4.5",
     "svelma": "0.3.0",
-    "svelte": "^3.12.1",
+    "svelte": "^3.49.0",
     "svelte-feather-icons": "^2.0.0",
     "svelte-preprocess": "^3.1.4",
     "svelte-spa-router": "^1.2.1"
